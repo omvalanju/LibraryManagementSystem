@@ -1,0 +1,10 @@
+.loginBox {
+  border-radius: 10px;
+  box-shadow: 1px 1px 10px gray;
+  width: 20%;
+  padding: 20px 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+}
