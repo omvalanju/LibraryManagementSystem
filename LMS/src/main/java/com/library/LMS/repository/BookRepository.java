@@ -36,9 +36,14 @@ public class BookRepository {
     }
 
     public List<Book> searchBooks(String keyword) {
-        return jdbcClient.sql("SELECT * FROM books WHERE book_title LIKE ? OR author_name LIKE ?")
-                .params("%" + keyword + "%", "%" + keyword + "%")
+        return jdbcClient.sql(
+                        "SELECT b.* FROM books b " +
+                                "JOIN publisher p ON b.publisher_id = p.publisher_id " +
+                                "WHERE b.book_title LIKE ? OR b.author_name LIKE ? OR b.ISBN LIKE ? OR p.publisher_name LIKE ?"
+                )
+                .params("%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%")
                 .query(BeanPropertyRowMapper.newInstance(Book.class))
                 .list();
     }
+
 }
