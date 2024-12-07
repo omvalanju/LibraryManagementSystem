@@ -18,13 +18,18 @@ public class BookController {
     }
 
     @GetMapping("")
-    List<Book> findAll(){
+    public List<Book> findAll() {
         return bookRepository.findAll();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create")
-    void create(@RequestBody Book book) {
+    public void create(@RequestBody Book book) {
         bookRepository.create(book);
+    }
+
+    @GetMapping("/search")
+    public List<Book> searchBooks(@RequestParam("keyword") String keyword) {
+        return bookRepository.searchBooks(keyword);
     }
 }
