@@ -2,9 +2,7 @@ package com.library.LMS.repository;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.Assert;
 import com.library.LMS.entity.Book;
-import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +23,9 @@ public class BookRepository {
                 .query(Book.class)
                 .list();
     }
-
+/*
     public void create(Book book) {
+
         jdbcClient.sql("INSERT INTO books(Book_ID, Title, Author, Publisher, ISBN, Published_Year, Copies_Available) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?)")
                 .params(List.of(
@@ -40,6 +39,6 @@ public class BookRepository {
                 ))
                 .update();
     }
-
+ */
 }
 
