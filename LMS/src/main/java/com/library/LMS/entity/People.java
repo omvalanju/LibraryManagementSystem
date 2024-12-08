@@ -114,6 +114,6 @@ public class People {
     }
 
     public enum Type {
-        STUDENT, PROFESSOR, STAFF, ADMIN
+        student, professor, staff, admin
     }
 }
