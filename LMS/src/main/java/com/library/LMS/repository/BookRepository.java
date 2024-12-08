@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class BookRepository {
@@ -33,6 +34,38 @@ public class BookRepository {
                         book.getCopiesAvailable()
                 )
                 .update();
+    }
+
+
+    public Optional<Book> findById(int bookId) {
+        return jdbcClient.sql("SELECT * FROM books WHERE book_id = ?")
+                .params(bookId)
+                .query(BeanPropertyRowMapper.newInstance(Book.class))
+                .optional();
+    }
+
+    public boolean deleteById(int bookId) {
+        int rowsAffected = jdbcClient.sql("DELETE FROM books WHERE book_id = ?")
+                .params(bookId)
+                .update();
+
+        return rowsAffected > 0; // Returns true if at least one row was deleted
+    }
+
+    public boolean update(int bookId, Book updatedBook) {
+        int rowsAffected = jdbcClient.sql("UPDATE books SET book_title = ?, author_name = ?, publisher_id = ?, ISBN = ?, copies_available = ? " +
+                        "WHERE book_id = ?")
+                .params(
+                        updatedBook.getBookTitle(),
+                        updatedBook.getAuthorName(),
+                        updatedBook.getPublisher().getPublisherId(),
+                        updatedBook.getISBN(),
+                        updatedBook.getCopiesAvailable(),
+                        bookId
+                )
+                .update();
+
+        return rowsAffected > 0; // Returns true if at least one row was updated
     }
 
     public List<Book> searchBooks(String keyword) {
