@@ -3,6 +3,7 @@ package com.library.LMS.controller;
 import com.library.LMS.entity.Book;
 import com.library.LMS.repository.BookRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -26,9 +27,11 @@ public class BookController {
         List<Book> books = bookRepository.findAll();
         return ResponseEntity.ok(books);
     }
-
+  
+    //---------------------------you can use this ↓ to implement 'Only admins can access'.
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<String> create(@RequestBody Book book) {
         try {
             validateBook(book); // Perform validation before saving
