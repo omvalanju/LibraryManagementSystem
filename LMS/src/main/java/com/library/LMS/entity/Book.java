@@ -17,6 +17,9 @@ public class Book {
     @Column(name = "author_name", nullable = false)
     private String authorName;
 
+    @Column(name = "publisher_name", nullable = false)
+    private String publisherName;
+
     @ManyToOne
     @JoinColumn(name = "publisher_id", nullable = false)
     private Publisher publisher;

@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/books")
+@CrossOrigin(origins = "*")
 public class BookController {
 
     private final BookRepository bookRepository;
@@ -26,7 +28,7 @@ public class BookController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("")
+    @PostMapping("/create")
     public ResponseEntity<String> create(@RequestBody Book book) {
         try {
             validateBook(book); // Perform validation before saving
@@ -37,6 +39,7 @@ public class BookController {
         }
     }
 
+    /*
     @GetMapping("/search")
     public ResponseEntity<List<Book>> searchBooks(@RequestParam("keyword") String keyword) {
         List<Book> books = bookRepository.searchBooks(keyword);
@@ -45,6 +48,19 @@ public class BookController {
         }
         return ResponseEntity.ok(books);
     }
+
+     */
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchBooks(@RequestParam("keyword") String keyword) {
+        List<Map<String, Object>> books = bookRepository.searchBooks(keyword);
+        if (books.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No books found matching the keyword.");
+        }
+        return ResponseEntity.ok(books);
+    }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable int id) {
@@ -59,6 +75,13 @@ public class BookController {
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete the book.");
         }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Book> findById(@PathVariable int id) {
+        Optional<Book> book = bookRepository.findById(id);
+        return book.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
 

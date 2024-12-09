@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .results ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .results li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+    <script>
+        async function searchBooks(event) {
+            event.preventDefault(); // Prevent form submission
+
+            const keyword = document.getElementById("keyword").value;
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = "<p>Searching...</p>";
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/books/search?keyword=${encodeURIComponent(keyword)}`);
+                const data = await response.json();
+
+                if (response.ok && data.length > 0) {
+                    let resultsHTML = "<ul>";
+                    data.forEach(book => {
+                        resultsHTML += `
+                            <li>
+                                <strong>Title:</strong> ${book.bookTitle}<br>
+                                <strong>Author:</strong> ${book.authorName}<br>
+                                <strong>Publisher:</strong> ${book.publisher}<br>
+                                <strong>ISBN:</strong> ${book.isbn}<br>
+                                <strong>Copies Available:</strong> ${book.copiesAvailable}
+                            </li>
+                        `;
+                    });
+                    resultsHTML += "</ul>";
+                    resultsDiv.innerHTML = resultsHTML;
+                } else {
+                    resultsDiv.innerHTML = "<p>No books found matching the keyword.</p>";
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1>Search Books</h1>
+    <form onsubmit="searchBooks(event)">
+        <input type="text" id="keyword" name="keyword" placeholder="Enter keyword (title, author, publisher, or ISBN)" required>
+        <button type="submit">Search</button>
+    </form>
+    <div id="results" class="results"></div>
+</div>
+</body>
+</html>

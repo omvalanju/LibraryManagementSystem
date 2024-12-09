@@ -1,28 +1,38 @@
 package com.library.LMS.repository;
 
 import com.library.LMS.entity.Book;
+import com.library.LMS.entity.Publisher;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Repository
 public class BookRepository {
 
     private final JdbcClient jdbcClient;
 
+    Logger logger = LoggerFactory.getLogger(BookRepository.class);
+
     public BookRepository(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;
     }
 
+    // Retrieve all books
     public List<Book> findAll() {
         return jdbcClient.sql("SELECT * FROM books")
                 .query(BeanPropertyRowMapper.newInstance(Book.class))
                 .list();
     }
 
+    // Create a new book
     public void create(Book book) {
         jdbcClient.sql("INSERT INTO books (book_title, author_name, publisher_id, ISBN, copies_available) " +
                         "VALUES (?, ?, ?, ?, ?)")
@@ -36,7 +46,7 @@ public class BookRepository {
                 .update();
     }
 
-
+    // Retrieve a book by ID
     public Optional<Book> findById(int bookId) {
         return jdbcClient.sql("SELECT * FROM books WHERE book_id = ?")
                 .params(bookId)
@@ -44,14 +54,16 @@ public class BookRepository {
                 .optional();
     }
 
+    // Delete a Book by ID
     public boolean deleteById(int bookId) {
         int rowsAffected = jdbcClient.sql("DELETE FROM books WHERE book_id = ?")
                 .params(bookId)
                 .update();
 
-        return rowsAffected > 0; // Returns true if at least one row was deleted
+        return rowsAffected > 0;
     }
 
+    // Update a book by ID
     public boolean update(int bookId, Book updatedBook) {
         int rowsAffected = jdbcClient.sql("UPDATE books SET book_title = ?, author_name = ?, publisher_id = ?, ISBN = ?, copies_available = ? " +
                         "WHERE book_id = ?")
@@ -64,19 +76,31 @@ public class BookRepository {
                         bookId
                 )
                 .update();
-
-        return rowsAffected > 0; // Returns true if at least one row was updated
+        return rowsAffected > 0;
     }
 
-    public List<Book> searchBooks(String keyword) {
-        return jdbcClient.sql(
-                        "SELECT b.* FROM books b " +
+    // Search books by keyword
+    public List<Map<String, Object>> searchBooks(String keyword) {
+        List<Map<String, Object>> results = jdbcClient.sql(
+                        "SELECT b.book_id, b.book_title, b.author_name, b.copies_available, b.ISBN, " +
+                                "p.publisher_name FROM books b " +
                                 "JOIN publisher p ON b.publisher_id = p.publisher_id " +
                                 "WHERE b.book_title LIKE ? OR b.author_name LIKE ? OR b.ISBN LIKE ? OR p.publisher_name LIKE ?"
                 )
                 .params("%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%")
-                .query(BeanPropertyRowMapper.newInstance(Book.class))
-                .list();
-    }
+                .query()
+                .listOfRows();
 
+        List<Map<String, Object>> books = results.stream().map(row -> Map.of(
+                "bookId", row.get("book_id"),
+                "bookTitle", row.get("book_title"),
+                "authorName", row.get("author_name"),
+                "publisher", row.get("publisher_name"),
+                "copiesAvailable", row.get("copies_available"),
+                "isbn", row.get("ISBN")
+        )).collect(Collectors.toList());
+
+        logger.info("Search results for keyword '{}': {}", keyword, books);
+        return books;
+    }
 }
