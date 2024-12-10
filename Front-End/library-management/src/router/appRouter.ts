@@ -1,5 +1,5 @@
 const appRouter = {
   LOGIN_PAGE: '/login',
-  HOME_PAGE: '/home',
+  BOOK_LIST_PAGE: '/book_list',
 };
 export default appRouter;

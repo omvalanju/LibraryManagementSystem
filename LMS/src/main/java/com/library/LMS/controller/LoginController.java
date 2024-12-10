@@ -23,7 +23,7 @@ public class LoginController {
         if (isValidUser) {
             String role = userRepository.getUserRole(email); // get the client's username
             String token = jwtService.generateToken(email,role);  // generate a token
-            LoginResponseEntity response = new LoginResponseEntity(token,role);
+            LoginResponseEntity response = new LoginResponseEntity(token,role,email);
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(401).body(null);
