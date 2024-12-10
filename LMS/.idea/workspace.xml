@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a456510-a83c-416c-a361-6baf14d8efc3" name="Changes" comment="Add CORS Config">
+    <list default="true" id="8a456510-a83c-416c-a361-6baf14d8efc3" name="Changes" comment="Edit CORS config">
+      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/pages/bookListPage/BookListPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/pages/bookListPage/BookListPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/pages/login/LoginPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/pages/login/LoginPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/services/apiClient.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/services/apiClient.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/library/LMS/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/config/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/library/LMS/controller/BookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/controller/BookController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +71,7 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "Spring Boot.LmsApplication.executor": "Debug",
+    "Spring Boot.LmsApplication.executor": "Run",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/soheil/Desktop/Software Development Practice/Project/LibraryManagementSystem/LMS",
@@ -129,7 +135,7 @@
       <workItem from="1733488487422" duration="8997000" />
       <workItem from="1733661682766" duration="3680000" />
       <workItem from="1733781500697" duration="2552000" />
-      <workItem from="1733825156397" duration="1778000" />
+      <workItem from="1733825156397" duration="4155000" />
     </task>
     <task id="LOCAL-00001" summary="Add Login with JWT">
       <option name="closed" value="true" />
@@ -155,7 +161,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733823552616</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Edit CORS config">
+      <option name="closed" value="true" />
+      <created>1733828673348</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1733828673348</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -176,6 +190,7 @@
     <MESSAGE value="Add Login with JWT" />
     <MESSAGE value="Authorizing a client with role (Filtering)" />
     <MESSAGE value="Add CORS Config" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add CORS Config" />
+    <MESSAGE value="Edit CORS config" />
+    <option name="LAST_COMMIT_MESSAGE" value="Edit CORS config" />
   </component>
 </project>

@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/books")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class BookController {
 
     private final BookRepository bookRepository;
