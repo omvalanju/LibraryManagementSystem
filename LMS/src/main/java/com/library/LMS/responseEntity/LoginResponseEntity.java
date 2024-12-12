@@ -1,22 +1,20 @@
 package com.library.LMS.responseEntity;
 
+import com.library.LMS.entity.People;
+
 public class LoginResponseEntity {
     private String token;
     private String role;
-    private String email;
+    private final People people;
     // Constructor
-    public LoginResponseEntity(String token, String role,String email) {
+    public LoginResponseEntity(String token, String role, People people) {
         this.token = token;
         this.role = role;
-        this.email = email;
+        this.people = people;
     }
-    public String getEmail() {
-            return email;
+    public  People getPeople() {
+        return people;
     }
-    public void setEmail(String email) {
-            this.email = email;
-    }
-    // Getters and Setters
     public String getToken() {
         return token;
     }

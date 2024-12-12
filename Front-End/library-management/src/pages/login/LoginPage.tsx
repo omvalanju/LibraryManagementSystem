@@ -29,7 +29,7 @@ const LoginPage = () => {
       )
       .then((response) => {
         dispatch(loginClient(response.data));
-        navigate(appRouter.BOOK_LIST_PAGE);
+        navigate(appRouter.HOME_PAGE);
       })
       .catch((error) => {
         if (error.status === 401)
