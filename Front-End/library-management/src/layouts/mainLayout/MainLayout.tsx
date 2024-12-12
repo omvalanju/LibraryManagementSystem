@@ -6,7 +6,7 @@ const MainLayout = () => {
   return (
     <>
       <HeaderNavbar />
-      <Container sx={{ marginTop: 3 }}>
+      <Container sx={{ marginTop: 10 }}>
         <Outlet />
       </Container>
     </>
