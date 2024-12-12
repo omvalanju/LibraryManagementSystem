@@ -15,14 +15,15 @@ import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import appRouter from '../../router/appRouter';
 import { BookSharp, Logout } from '@mui/icons-material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logoutClient } from '../../features/loginSlice';
-import { AppDispatch } from '../../store/store';
+import { AppDispatch, AppStore } from '../../store/store';
 
 const HeaderNavbar: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const person = useSelector((state: AppStore) => state.loginSlice.people);
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
@@ -39,7 +40,7 @@ const HeaderNavbar: React.FC = () => {
     navigate(appRouter.LOGIN_PAGE);
   };
   return (
-    <AppBar position='static'>
+    <AppBar position='fixed' sx={{ top: '0px' }}>
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <Typography
@@ -82,7 +83,7 @@ const HeaderNavbar: React.FC = () => {
           >
             <Box>
               <Button
-                onClick={() => navigate(appRouter.BOOK_LIST_PAGE)}
+                onClick={() => navigate(appRouter.HOME_PAGE)}
                 startIcon={<BookSharp />}
                 sx={{
                   my: 2,
@@ -100,7 +101,7 @@ const HeaderNavbar: React.FC = () => {
                 color: 'white',
               }}
             >
-              logout
+              logout ({person.firstName + ' ' + person.lastName})
             </Button>
           </Box>
         </Toolbar>
@@ -118,7 +119,7 @@ const HeaderNavbar: React.FC = () => {
               <ListItemButton href='/'>
                 <ListItemText
                   primary='Book List'
-                  onClick={() => navigate(appRouter.BOOK_LIST_PAGE)}
+                  onClick={() => navigate(appRouter.HOME_PAGE)}
                 />
               </ListItemButton>
             </ListItem>

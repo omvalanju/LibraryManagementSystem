@@ -3,7 +3,7 @@ import appRouter from '../router/appRouter';
 import store from '../store/store';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  baseURL: 'http://localhost:8080/api/',
   withCredentials: true,
 });
 apiClient.interceptors.request.use((req) => {

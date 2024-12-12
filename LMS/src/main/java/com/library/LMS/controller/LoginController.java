@@ -1,4 +1,6 @@
 package com.library.LMS.controller;
+import com.library.LMS.entity.People;
+import com.library.LMS.repository.PeopleRepository;
 import com.library.LMS.repository.UserRepository;
 import com.library.LMS.responseEntity.LoginResponseEntity;
 import com.library.LMS.responseEntity.VerifyResponseEntity;
@@ -11,9 +13,11 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
     private final JwtUtil jwtService = new JwtUtil();
     private final UserRepository userRepository;
+    private final PeopleRepository peopleRepository;
 
-    public LoginController(UserRepository userRepository) {
+    public LoginController(UserRepository userRepository, PeopleRepository peopleRepository) {
         this.userRepository = userRepository;
+        this.peopleRepository = peopleRepository;
     }
 
 
@@ -23,7 +27,8 @@ public class LoginController {
         if (isValidUser) {
             String role = userRepository.getUserRole(email); // get the client's username
             String token = jwtService.generateToken(email,role);  // generate a token
-            LoginResponseEntity response = new LoginResponseEntity(token,role,email);
+            People person = peopleRepository.findByEmail(email);
+            LoginResponseEntity response = new LoginResponseEntity(token,role,person);
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(401).body(null);

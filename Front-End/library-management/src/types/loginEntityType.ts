@@ -1,3 +1,5 @@
+import PeopleType from './peopleType';
+
 export interface LoginRequestEntityType {
   email: string;
   password: string;
@@ -5,5 +7,5 @@ export interface LoginRequestEntityType {
 export interface LoginResponseEntityType {
   token: string;
   role: string;
-  email: string;
+  people: PeopleType;
 }

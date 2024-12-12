@@ -21,5 +21,13 @@ public class PeopleRepository {
                 .query(BeanPropertyRowMapper.newInstance(People.class))
                 .list();
     }
+    public People findByEmail(String email) {
+        String query = "SELECT * FROM people WHERE email = ?";
+        return jdbcClient.sql(query)
+                .param(email)
+                .query(BeanPropertyRowMapper.newInstance(People.class))
+                .optional()
+                .orElse(null); // Return null if no record is found
+    }
 }
 
