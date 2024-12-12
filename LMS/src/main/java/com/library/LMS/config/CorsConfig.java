@@ -8,9 +8,10 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**") // شامل تمام مسیرهای زیر "/api"
-                .allowedOrigins("http://localhost:5173") // آدرس فرانت‌اند
+                .allowedOrigins("http://localhost:5173", "http://localhost:63342") // آدرس فرانت‌اند
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // متدهای مجاز
                 .allowedHeaders("*")
                 .allowCredentials(true);
+
     }
 }

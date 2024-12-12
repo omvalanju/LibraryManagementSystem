@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -58,7 +59,9 @@ public class BookController {
     public ResponseEntity<?> searchBooks(@RequestParam("keyword") String keyword) {
         List<Map<String, Object>> books = bookRepository.searchBooks(keyword);
         if (books.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No books found matching the keyword.");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "No books found matching the keyword.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
         return ResponseEntity.ok(books);
     }
@@ -66,10 +69,12 @@ public class BookController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteById(@PathVariable int id) {
+    public ResponseEntity<?> deleteById(@PathVariable int id) {
         Optional<Book> book = bookRepository.findById(id);
         if (book.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book not found with ID: " + id);
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Book not found with ID: " + id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
 
         boolean deleted = bookRepository.deleteById(id);
