@@ -4,17 +4,30 @@ import {
   CardContent,
   Typography,
   CircularProgress,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { AppStore } from '../../store/store';
 import useBorrowedBookEntity from '../../hooks/useBorrowedBookEntity';
 import DebouncedFilter from '../../components/debouncedFilter/DebouncedFilter';
 import useBookCRUDEntity from '../../hooks/useBookCRUDEntity';
-import { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import BookEntityType from '../../types/bookEntityType';
 import BookCard from '../../components/bookCard/BookCard';
+import CustomModal from '../../components/customModal/CustomModal';
+import useCartEntity from '../../hooks/useCartEntity';
 
 const HomePage = () => {
+  const { addToCart } = useCartEntity();
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [selectedBook, setSelectedBook] = useState<BookEntityType>();
+  const quantityInput = useRef<HTMLInputElement>(null);
   const personInfo = useSelector((state: AppStore) => state.loginSlice.people);
   const { getListData } = useBorrowedBookEntity(personInfo.peopleId);
   const { getSearchedBooks, getSearchedBooksLoading } =
@@ -28,11 +41,65 @@ const HomePage = () => {
     const result = await getSearchedBooks(value);
     if (result) setSearchedData(result.data);
   };
-  useEffect(() => {
-    console.log('Loading status:', getSearchedBooksLoading);
-  }, [getSearchedBooksLoading]);
+  const handleBookClicked = (book: BookEntityType) => {
+    setSelectedBook(book);
+    setOpenModal(true);
+  };
+  const handleSubmitModal = async () => {
+    if (selectedBook && quantityInput.current)
+      await addToCart({
+        bookId: selectedBook?.bookId,
+        quantity: parseInt(quantityInput.current?.value),
+        userId: personInfo.peopleId,
+      });
+    setOpenModal(false);
+  };
   return (
     <Box>
+      <CustomModal
+        handleClose={() => setOpenModal(false)}
+        open={openModal}
+        handleSubmit={() => handleSubmitModal()}
+        modalTitle='Add to cart'
+      >
+        <TableContainer component={Paper}>
+          <Table aria-label='simple table'>
+            <TableHead>
+              <TableRow>
+                <TableCell>Author</TableCell>
+                <TableCell>Title</TableCell>
+                <TableCell>Copies</TableCell>
+                <TableCell>ISBN</TableCell>
+                <TableCell>Publisher</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component='th' scope='row'>
+                  {selectedBook?.authorName}
+                </TableCell>
+                <TableCell>{selectedBook?.bookTitle}</TableCell>
+                <TableCell>{selectedBook?.copiesAvailable}</TableCell>
+                <TableCell>{selectedBook?.isbn}</TableCell>
+                <TableCell>{selectedBook?.publisher}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Typography variant='subtitle1' color='initial'>
+          How many do you nead?
+          <input
+            ref={quantityInput}
+            style={{ textAlign: 'center' }}
+            defaultValue={1}
+            type='number'
+            max={selectedBook?.copiesAvailable}
+            min={1}
+          />
+        </Typography>
+      </CustomModal>
       <Box
         display={'flex'}
         flexWrap={'wrap'}
@@ -40,55 +107,6 @@ const HomePage = () => {
         justifyContent={'center'}
         mb={2}
       >
-        {/* <Card sx={{ width: '100%' }}>
-          <Typography sx={{ p: 1, bgcolor: 'lightblue' }}>
-            User Information
-          </Typography>
-          <CardContent>
-            <Grid2 container spacing={2}>
-              <Grid2 size={6}>
-                <Typography variant='subtitle1' color='initial'>
-                  First Name:
-                </Typography>
-                <Typography variant='subtitle1' color='initial'>
-                  Last Name:
-                </Typography>
-                <Typography variant='subtitle1' color='initial'>
-                  Addredd:
-                </Typography>
-                <Typography variant='subtitle1' color='initial'>
-                  Phone Number:
-                </Typography>
-                <Typography variant='subtitle1' color='initial'>
-                  Email:
-                </Typography>
-                <Typography variant='subtitle1' color='initial'>
-                  Join Date:
-                </Typography>
-              </Grid2>
-              <Grid2 size={6}>
-                <Typography variant='subtitle1' color='initial'>
-                  {personInfo.firstName}
-                </Typography>
-                <Typography variant='subtitle1' color='initial'>
-                  {personInfo.lastName}
-                </Typography>
-                <Typography variant='subtitle1' color='initial'>
-                  {personInfo.address}
-                </Typography>
-                <Typography variant='subtitle1' color='initial'>
-                  {personInfo.phoneNumber}
-                </Typography>
-                <Typography variant='subtitle1' color='initial'>
-                  {personInfo.email}
-                </Typography>
-                <Typography variant='subtitle1' color='initial'>
-                  {personInfo.joinDate}
-                </Typography>
-              </Grid2>
-            </Grid2>
-          </CardContent>
-        </Card> */}
         <Card sx={{ width: '100%' }}>
           <Typography sx={{ p: 1, bgcolor: 'lightblue' }}>
             Borrowed Books Information
@@ -101,7 +119,7 @@ const HomePage = () => {
               </Typography>
             )}
             {getListData?.map((m) => (
-              <Card sx={{ minWidth: 250 }}>
+              <Card key={m.book_id} sx={{ minWidth: 250 }}>
                 <CardContent>
                   <Typography sx={{ color: 'text.secondary', fontSize: 14 }}>
                     <strong>Title:</strong> {m.book_title}
@@ -144,9 +162,8 @@ const HomePage = () => {
           searchedData.map((m) => (
             <BookCard
               key={m.bookId}
-              bookTitle={m.bookTitle}
-              publisher={m.publisher}
-              copies={m.copiesAvailable}
+              BookEntity={m}
+              onClick={handleBookClicked}
             />
           ))
         )}

@@ -14,7 +14,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import appRouter from '../../router/appRouter';
-import { BookSharp, Logout } from '@mui/icons-material';
+import { BookSharp, Logout, Shop } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutClient } from '../../features/loginSlice';
 import { AppDispatch, AppStore } from '../../store/store';
@@ -90,19 +90,31 @@ const HeaderNavbar: React.FC = () => {
                   color: 'white',
                 }}
               >
-                Book List
+                Home
               </Button>
             </Box>
-            <Button
-              onClick={handleLogout}
-              startIcon={<Logout />}
-              sx={{
-                my: 2,
-                color: 'white',
-              }}
-            >
-              logout ({person.firstName + ' ' + person.lastName})
-            </Button>
+            <Box>
+              <Button
+                color='secondary'
+                variant='contained'
+                startIcon={<Shop />}
+                onClick={() => navigate(appRouter.CART_PAGE)}
+              >
+                Cart
+              </Button>
+              {/* ({basketCart.length}) */}
+              <Button
+                onClick={handleLogout}
+                variant='contained'
+                startIcon={<Logout />}
+                sx={{
+                  my: 2,
+                  color: 'white',
+                }}
+              >
+                logout ({person.firstName + ' ' + person.lastName})
+              </Button>
+            </Box>
           </Box>
         </Toolbar>
       </Container>
@@ -118,8 +130,18 @@ const HeaderNavbar: React.FC = () => {
             <ListItem disablePadding>
               <ListItemButton href='/'>
                 <ListItemText
-                  primary='Book List'
+                  primary='Home'
                   onClick={() => navigate(appRouter.HOME_PAGE)}
+                />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton href='/'>
+                <ListItemText
+                  primary={
+                    'logout (' + person.firstName + ' ' + person.lastName + ')'
+                  }
+                  onClick={handleLogout}
                 />
               </ListItemButton>
             </ListItem>

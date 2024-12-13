@@ -5,23 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8a456510-a83c-416c-a361-6baf14d8efc3" name="Changes" comment="Edit CORS config">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/repository/BorrowRecordRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/responseEntity/CartItemResponseEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/components/bookCard/BookCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/components/bookCard/BookCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/components/headerNavbar/HeaderNavbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/components/headerNavbar/HeaderNavbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/features/loginSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/features/loginSlice.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/hooks/base/useBaseCRUDEntity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/hooks/base/useBaseCRUDEntity.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/hooks/useBookCRUDEntity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/hooks/useBookCRUDEntity.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/pages/bookListPage/BookListPage.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/pages/login/LoginPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/pages/login/LoginPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/pages/homePage/HomePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/pages/homePage/HomePage.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/router/MainRouter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/router/MainRouter.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/router/appRouter.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/router/appRouter.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/services/apiClient.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/services/apiClient.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/types/loginEntityType.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/types/loginEntityType.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/store/rootReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/store/rootReducer.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/library/LMS/controller/BorrowRecordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/controller/BorrowRecordController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/library/LMS/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/library/LMS/repository/PeopleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/repository/PeopleRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/library/LMS/responseEntity/LoginResponseEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/responseEntity/LoginResponseEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/library/LMS/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/library/LMS/controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/controller/CartController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/library/LMS/repository/CartItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/repository/CartItemRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/library/LMS/repository/CartRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/repository/CartRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +36,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -147,7 +147,8 @@
       <workItem from="1733781500697" duration="2552000" />
       <workItem from="1733825156397" duration="5993000" />
       <workItem from="1733932977345" duration="2842000" />
-      <workItem from="1734007634412" duration="1090000" />
+      <workItem from="1734007634412" duration="4925000" />
+      <workItem from="1734077812258" duration="15107000" />
     </task>
     <task id="LOCAL-00001" summary="Add Login with JWT">
       <option name="closed" value="true" />

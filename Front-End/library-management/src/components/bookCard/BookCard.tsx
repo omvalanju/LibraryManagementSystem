@@ -1,15 +1,16 @@
-import { Box, Card, CardContent, Typography } from '@mui/material';
+import { Box, Card, CardContent, Typography, Button } from '@mui/material';
+import BookEntityType from '../../types/bookEntityType';
 interface Props {
-  bookTitle: string;
-  publisher: string;
-  copies: number;
+  BookEntity: BookEntityType;
+  onClick: (book: BookEntityType) => void;
+  state?: 'delete' | 'add';
 }
-const BookCard = ({ bookTitle, publisher, copies }: Props) => {
+const BookCard = ({ BookEntity, onClick, state = 'add' }: Props) => {
   return (
     <Card
       sx={{
-        width: 200,
-        height: 250,
+        width: 250,
+        minHeight: 250,
         borderRadius: '5px',
         background: 'linear-gradient(120deg, #add8e6 50%, white 50%)',
         boxShadow: '5px 5px 15px rgba(0, 0, 0, 0.3)',
@@ -51,14 +52,22 @@ const BookCard = ({ bookTitle, publisher, copies }: Props) => {
             boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)',
           }}
         >
-          {bookTitle}
+          {BookEntity.bookTitle}
         </Typography>
         <Typography variant='body2' sx={{ mt: 2, textAlign: 'center' }}>
-          Publisher: {publisher}
+          Publisher: {BookEntity.publisher}
         </Typography>
         <Typography variant='overline' sx={{ mt: 1, textAlign: 'center' }}>
-          Copies:{copies}
+          Copies:{BookEntity.copiesAvailable}
         </Typography>
+        <Button
+          variant='outlined'
+          color={state === 'add' ? 'primary' : 'error'}
+          size='small'
+          onClick={() => onClick(BookEntity)}
+        >
+          {state === 'add' ? 'Add to cart' : 'Remove from cart'}
+        </Button>
       </CardContent>
     </Card>
   );

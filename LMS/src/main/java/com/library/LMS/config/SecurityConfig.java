@@ -26,14 +26,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // اضافه کردن CORS
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         // making an exception
                         .requestMatchers("/api/login", "/api/verify").permitAll()
                         // other apis must have authenticated token
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // اضافه کردن فیلتر JWT
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -41,13 +41,13 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:5173")); // آدرس فرانت‌اند
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // متدهای مجاز
-        configuration.setAllowedHeaders(List.of("*")); // هدرهای مجاز
-        configuration.setAllowCredentials(true); // پشتیبانی از کوکی و Credentialها
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // اعمال تنظیمات به تمام مسیرها
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 }
