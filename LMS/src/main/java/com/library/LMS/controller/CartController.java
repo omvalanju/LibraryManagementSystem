@@ -7,16 +7,21 @@ import com.library.LMS.entity.People;
 import com.library.LMS.repository.BookRepository;
 import com.library.LMS.repository.CartItemRepository;
 import com.library.LMS.repository.CartRepository;
+import com.library.LMS.responseEntity.CartItemResponseEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("api/cart")
 public class CartController {
     @Autowired
     private CartRepository cartRepository;
@@ -65,19 +70,15 @@ public class CartController {
         return ResponseEntity.ok("Book added to cart");
     }
 
-    /*
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> getCartItems(@PathVariable Integer userId) {
-        List<Cart> optionalCart = cartRepository.findByPeople_PeopleId(userId);
-        if (optionalCart.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cart not found for the user");
+    @GetMapping("/{peopleId}")
+    public ResponseEntity<?> getCartItems(@PathVariable Integer peopleId) {
+        List<CartItemResponseEntity> cartItems = cartRepository.findCartItemsByPeopleId(peopleId);
+        if (cartItems.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("There are no cart items in the cart");
         }
-
-        List<CartItem> cartItems = cartItemRepository.findByCart_CartId(optionalCart.get().getCartId());
         return ResponseEntity.ok(cartItems);
     }
 
-     */
 
     @DeleteMapping("/{userId}/remove/{itemId}")
     public ResponseEntity<?> removeItemFromCart(@PathVariable Long userId, @PathVariable Integer itemId) {
@@ -88,5 +89,16 @@ public class CartController {
 
         cartItemRepository.delete(optionalCartItem.get());
         return ResponseEntity.ok("Item removed from cart");
+    }
+    @PostMapping("/update/{peopleId}/{bookId}")
+    @Transactional
+    public ResponseEntity<?> updateCartItem(@PathVariable Integer peopleId, @PathVariable Integer bookId) {
+        int updatedRows = cartItemRepository.decrementQuantity(bookId, peopleId);
+
+        if (updatedRows == 0) {
+            cartItemRepository.removeCartItem(bookId, peopleId);
+        }
+
+        return ResponseEntity.ok("Cart item updated successfully");
     }
 }
