@@ -46,7 +46,7 @@ public class PublisherRepository {
     }
 
     // Update a publisher by ID
-    public boolean update(Integer id, Publisher publisher) {
+    public boolean update(Publisher publisher) {
         int rowsAffected = jdbcClient.sql("UPDATE publisher SET publisher_name = ?, phone_number = ?, address = ?, email = ?" +
                         "WHERE publisher_id = ?")
                 .params(
@@ -54,7 +54,7 @@ public class PublisherRepository {
                         publisher.getPhoneNumber(),
                         publisher.getAddress(),
                         publisher.getEmail(),
-                        id
+                        publisher.getPublisherId()
                 )
                 .update();
         return rowsAffected > 0;
