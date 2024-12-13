@@ -6,18 +6,22 @@ import {
   Button,
 } from '@mui/material';
 import { ReactNode } from 'react';
+
 interface Props {
   open: boolean;
   handleClose: () => void;
-  handleSubmit: () => void;
+  handleSubmit?: () => void;
   modalTitle: string;
   children: ReactNode;
+  dialogActionChildren?: ReactNode;
 }
+
 const CustomModal = ({
   open,
   handleClose,
   modalTitle,
   children,
+  dialogActionChildren,
   handleSubmit,
 }: Props) => {
   return (
@@ -30,16 +34,26 @@ const CustomModal = ({
       <DialogTitle id='alert-dialog-title'>{modalTitle}</DialogTitle>
       <DialogContent>{children}</DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Disagree</Button>
-        <Button
-          onClick={() => {
-            handleClose();
-            handleSubmit();
-          }}
-          autoFocus
-        >
-          Agree
-        </Button>
+        {dialogActionChildren ? (
+          dialogActionChildren
+        ) : (
+          <>
+            {handleSubmit && (
+              <>
+                <Button onClick={handleClose}>Disagree</Button>
+                <Button
+                  onClick={() => {
+                    handleClose();
+                    handleSubmit();
+                  }}
+                  autoFocus
+                >
+                  Agree
+                </Button>
+              </>
+            )}
+          </>
+        )}
       </DialogActions>
     </Dialog>
   );

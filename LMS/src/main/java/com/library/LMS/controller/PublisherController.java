@@ -5,6 +5,7 @@ import com.library.LMS.entity.Publisher;
 import com.library.LMS.repository.PublisherRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,12 +24,14 @@ public class PublisherController {
     // Create a new publisher
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('admin')")
     public void create(@RequestBody Publisher publisher) {
         publisherRepository.create(publisher);
     }
 
     // Get all publishers
     @GetMapping("")
+    @PreAuthorize("hasRole('admin')")
     public List<Publisher> findAll() {
         return publisherRepository.findAll();
     }
@@ -42,9 +45,10 @@ public class PublisherController {
     }
 
     // Update a publisher by ID
-    @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable Integer id, @RequestBody Publisher publisher) {
-        boolean updated = publisherRepository.update(id, publisher);
+    @PutMapping("/update")
+    @PreAuthorize("hasRole('admin')")
+    public ResponseEntity<String> update(@RequestBody Publisher publisher) {
+        boolean updated = publisherRepository.update(publisher);
         if (updated) {
             return ResponseEntity.ok("{\"message\": \"Publisher updated successfully\"}");
         } else {
@@ -54,7 +58,8 @@ public class PublisherController {
     }
 
     //Delete publisher by ID
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteById/{id}")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<String> deleteById(@PathVariable int id) {
         Optional<Publisher> publisher = publisherRepository.findById(id);
         if (publisher.isEmpty()) {

@@ -5,6 +5,7 @@ import appRouter from './appRouter';
 import MainLayout from '../layouts/mainLayout/MainLayout';
 import HomePage from '../pages/homePage/HomePage';
 import CartListPage from '../pages/cartListPage/CartListPage';
+import PublisherPage from '../pages/publisher/PublisherPage';
 
 const MainRouter = () => {
   return (
@@ -17,6 +18,7 @@ const MainRouter = () => {
         <Route element={<MainLayout />}>
           <Route element={<HomePage />} path={appRouter.HOME_PAGE} />
           <Route element={<CartListPage />} path={appRouter.CART_PAGE} />
+          <Route element={<PublisherPage />} path={appRouter.PUBLISHER_PAGE} />
         </Route>
       </Routes>
     </BrowserRouter>

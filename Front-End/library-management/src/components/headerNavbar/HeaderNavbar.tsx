@@ -14,7 +14,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import appRouter from '../../router/appRouter';
-import { BookSharp, Logout, Shop } from '@mui/icons-material';
+import { Home, Logout, Shop, Spellcheck } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutClient } from '../../features/loginSlice';
 import { AppDispatch, AppStore } from '../../store/store';
@@ -24,6 +24,7 @@ const HeaderNavbar: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const person = useSelector((state: AppStore) => state.loginSlice.people);
+  const role = useSelector((state: AppStore) => state.loginSlice.role);
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
@@ -84,7 +85,7 @@ const HeaderNavbar: React.FC = () => {
             <Box>
               <Button
                 onClick={() => navigate(appRouter.HOME_PAGE)}
-                startIcon={<BookSharp />}
+                startIcon={<Home />}
                 sx={{
                   my: 2,
                   color: 'white',
@@ -92,6 +93,18 @@ const HeaderNavbar: React.FC = () => {
               >
                 Home
               </Button>
+              {role === 'admin' && (
+                <Button
+                  onClick={() => navigate(appRouter.PUBLISHER_PAGE)}
+                  startIcon={<Spellcheck />}
+                  sx={{
+                    my: 2,
+                    color: 'white',
+                  }}
+                >
+                  Publisher
+                </Button>
+              )}
             </Box>
             <Box>
               <Button
