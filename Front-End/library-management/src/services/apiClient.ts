@@ -18,7 +18,7 @@ apiClient.interceptors.response.use(
   (error) => {
     if (
       error.response &&
-      error.response.status === 407 &&
+      error.response.status === 403 &&
       !window.location.href.includes('/login')
     ) {
       localStorage.removeItem('token');
