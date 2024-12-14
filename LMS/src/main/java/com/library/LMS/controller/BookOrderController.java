@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/books")
-@CrossOrigin(origins = "*")
+@RequestMapping("/api/bookOrder")
+//@CrossOrigin(origins = "*")
 public class BookOrderController {
 
     @Autowired

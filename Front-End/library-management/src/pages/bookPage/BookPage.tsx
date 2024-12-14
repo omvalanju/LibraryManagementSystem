@@ -1,5 +1,8 @@
-import Typography from '@mui/material/Typography';
+import { Add, Edit, Delete } from '@mui/icons-material';
 import {
+  CircularProgress,
+  Button,
+  Typography,
   TableContainer,
   Paper,
   Table,
@@ -7,66 +10,33 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Button,
-  TextField,
-  Box,
-  Alert,
-  CircularProgress,
-  Backdrop,
   IconButton,
+  Alert,
+  Box,
+  TextField,
 } from '@mui/material';
-import usePublisherCRUDEntity from '../../hooks/usePublisherCRUDEntity';
-import { Add, Delete, Edit } from '@mui/icons-material';
+import useBookCRUDEntity from '../../hooks/useBookCRUDEntity';
 import { useState } from 'react';
-import CustomModal from '../../components/customModal/CustomModal';
 import { useForm } from 'react-hook-form';
-import PublisherEntityType from '../../types/publisherEntityType';
+import BookEntityType from '../../types/bookEntityType';
+import CustomModal from '../../components/customModal/CustomModal';
 
-const PublisherPage = () => {
-  const {
-    getListData,
-    getListerror,
-    getListisLoading,
-    createFunction,
-    createFunctionLoading,
-    getListRefetch,
-    deleteFunction,
-    deleteFunctionLoading,
-    updateFunction,
-    updateFunctionLoading,
-  } = usePublisherCRUDEntity();
+const BookPage = () => {
+  const { getListData, getListerror, getListisLoading } = useBookCRUDEntity();
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
-  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
-  const [selectedEntity, setSelectedEntity] = useState<PublisherEntityType>();
   const [modalState, setModalState] = useState<'edit' | 'create'>();
-  const { register, handleSubmit, reset } = useForm<PublisherEntityType>();
-  const handleSubmitNewPublisher = async (data: PublisherEntityType) => {
-    if (modalState === 'create') await createFunction(data);
-    if (modalState === 'edit' && selectedEntity) {
-      data.publisherId = selectedEntity?.publisherId;
-      await updateFunction(data);
-    }
-    getListRefetch();
-    setOpenAddModal(false);
-  };
-  const handleDelete = async () => {
-    if (!selectedEntity) return;
-    await deleteFunction(selectedEntity.publisherId);
-    getListRefetch();
-    setOpenDeleteModal(false);
+  const { register, handleSubmit, reset } = useForm<BookEntityType>();
+  const handleSubmitNewBook = async (data: BookEntityType) => {
+    //   if (modalState === 'create') await createFunction(data);
+    //   if (modalState === 'edit' && selectedEntity) {
+    //     data.publisherId = selectedEntity?.publisherId;
+    //     await updateFunction(data);
+    //   }
+    //   getListRefetch();
+    //   setOpenAddModal(false);
   };
   return (
     <div>
-      <Backdrop
-        sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
-        open={
-          createFunctionLoading ||
-          deleteFunctionLoading ||
-          updateFunctionLoading
-        }
-      >
-        <CircularProgress color='inherit' />
-      </Backdrop>
       {getListerror && <Alert color='error'>{getListerror.message}</Alert>}
       {/* ----------Create modal */}
       <CustomModal
@@ -75,14 +45,9 @@ const PublisherPage = () => {
           setOpenAddModal(false);
           reset();
         }}
-        modalTitle={
-          modalState === 'create' ? 'Add new publisher' : 'Edit a publisher'
-        }
+        modalTitle={modalState === 'create' ? 'Add new book' : 'Edit a book'}
       >
-        <Box
-          component={'form'}
-          onSubmit={handleSubmit(handleSubmitNewPublisher)}
-        >
+        <Box component={'form'} onSubmit={handleSubmit(handleSubmitNewBook)}>
           <TextField
             fullWidth
             sx={{ mb: 2 }}
@@ -143,21 +108,8 @@ const PublisherPage = () => {
           </Button>
         </Box>
       </CustomModal>
-      {/* ----------Delete modal */}
-      <CustomModal
-        open={openDeleteModal}
-        handleClose={() => {
-          setOpenDeleteModal(false);
-        }}
-        modalTitle='Delete a publisher'
-        handleSubmit={() => handleDelete()}
-      >
-        <Typography variant='subtitle1' color='initial'>
-          Are you sure to delete this item?
-        </Typography>
-      </CustomModal>
       <Typography variant='h6' color='initial'>
-        Publishers
+        Books
       </Typography>
       <hr />
       <Button
@@ -176,41 +128,43 @@ const PublisherPage = () => {
         <Table aria-label='simple table'>
           <TableHead>
             <TableRow>
-              <TableCell>Publisher Name</TableCell>
-              <TableCell>Phone Number</TableCell>
-              <TableCell>Address</TableCell>
-              <TableCell>Email</TableCell>
+              <TableCell>Author Name</TableCell>
+              <TableCell>Book Title</TableCell>
+              <TableCell>Copies Available</TableCell>
+              <TableCell>ISBN</TableCell>
+              <TableCell>Publisher</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {getListData?.map((m) => (
               <TableRow
-                key={m.publisherId}
+                key={m.bookId}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell>{m.publisherName}</TableCell>
-                <TableCell>{m.phoneNumber}</TableCell>
-                <TableCell>{m.address}</TableCell>
-                <TableCell>{m.email}</TableCell>
+                <TableCell>{m.authorName}</TableCell>
+                <TableCell>{m.bookTitle}</TableCell>
+                <TableCell>{m.copiesAvailable}</TableCell>
+                <TableCell>{m.isbn}</TableCell>
+                <TableCell>{m.publisher.publisherName}</TableCell>
                 <TableCell>
                   <IconButton
                     color='secondary'
-                    onClick={() => {
-                      reset();
-                      setSelectedEntity(m);
-                      setModalState('edit');
-                      setOpenAddModal(true);
-                    }}
+                    // onClick={() => {
+                    //   reset();
+                    //   setSelectedEntity(m);
+                    //   setModalState('edit');
+                    //   setOpenAddModal(true);
+                    // }}
                   >
                     <Edit />
                   </IconButton>
                   <IconButton
                     color='error'
-                    onClick={() => {
-                      setSelectedEntity(m);
-                      setOpenDeleteModal(true);
-                    }}
+                    // onClick={() => {
+                    //   setSelectedEntity(m);
+                    //   setOpenDeleteModal(true);
+                    // }}
                   >
                     <Delete />
                   </IconButton>
@@ -224,4 +178,4 @@ const PublisherPage = () => {
   );
 };
 
-export default PublisherPage;
+export default BookPage;

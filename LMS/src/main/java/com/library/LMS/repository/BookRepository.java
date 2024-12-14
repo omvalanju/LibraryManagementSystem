@@ -27,10 +27,40 @@ public class BookRepository {
 
     // Retrieve all books
     public List<Book> findAll() {
-        return jdbcClient.sql("SELECT * FROM books")
-                .query(BeanPropertyRowMapper.newInstance(Book.class))
+        String sql = """
+        SELECT 
+            b.book_id, 
+            b.book_title, 
+            b.author_name, 
+            b.ISBN, 
+            b.copies_available,
+            p.publisher_id,
+            p.publisher_name
+        FROM 
+            books b
+        JOIN 
+            publisher p ON b.publisher_id = p.publisher_id
+    """;
+
+        return jdbcClient.sql(sql)
+                .query((rs, rowNum) -> {
+                    Book book = new Book();
+                    book.setBookId(rs.getInt("book_id"));
+                    book.setBookTitle(rs.getString("book_title"));
+                    book.setAuthorName(rs.getString("author_name"));
+                    book.setISBN(rs.getString("ISBN"));
+                    book.setCopiesAvailable(rs.getInt("copies_available"));
+
+                    Publisher publisher = new Publisher();
+                    publisher.setPublisherId(rs.getInt("publisher_id"));
+                    publisher.setPublisherName(rs.getString("publisher_name"));
+                    book.setPublisher(publisher);
+
+                    return book;
+                })
                 .list();
     }
+
 
     // Create a new book
     public void create(Book book) {

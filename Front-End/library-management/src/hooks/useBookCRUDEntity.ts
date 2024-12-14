@@ -5,7 +5,7 @@ import apiClient from '../services/apiClient';
 
 const useBookCRUDEntity = (enabled: boolean = true) => {
   const { getListData, getListerror, getListisLoading } =
-    useBaseCRUDEntity<BookEntityType>('books', enabled);
+    useBaseCRUDEntity<BookEntityType>('books', '', '', '', enabled);
   const getSearchedData = async (keyword: string) =>
     await apiClient.get<BookEntityType[]>(
       'http://localhost:8080/api/books/search?keyword=' + keyword

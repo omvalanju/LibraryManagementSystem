@@ -14,7 +14,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import appRouter from '../../router/appRouter';
-import { Home, Logout, Shop, Spellcheck } from '@mui/icons-material';
+import { Book, Home, Logout, Shop, Spellcheck } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutClient } from '../../features/loginSlice';
 import { AppDispatch, AppStore } from '../../store/store';
@@ -94,16 +94,28 @@ const HeaderNavbar: React.FC = () => {
                 Home
               </Button>
               {role === 'admin' && (
-                <Button
-                  onClick={() => navigate(appRouter.PUBLISHER_PAGE)}
-                  startIcon={<Spellcheck />}
-                  sx={{
-                    my: 2,
-                    color: 'white',
-                  }}
-                >
-                  Publisher
-                </Button>
+                <>
+                  <Button
+                    onClick={() => navigate(appRouter.PUBLISHER_PAGE)}
+                    startIcon={<Spellcheck />}
+                    sx={{
+                      my: 2,
+                      color: 'white',
+                    }}
+                  >
+                    Publisher
+                  </Button>
+                  <Button
+                    onClick={() => navigate(appRouter.BOOK_PAGE)}
+                    startIcon={<Book />}
+                    sx={{
+                      my: 2,
+                      color: 'white',
+                    }}
+                  >
+                    Book
+                  </Button>
+                </>
               )}
             </Box>
             <Box>
