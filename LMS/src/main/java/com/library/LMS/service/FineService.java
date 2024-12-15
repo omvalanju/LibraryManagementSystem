@@ -65,7 +65,7 @@ public class FineService {
                 fine.setBook(book);
                 fine.setPeople(people);
                 fine.setFineAmount(fineAmount);
-                fine.setStatus(Fine.FineStatus.DUE);
+                fine.setStatus(Fine.FineStatus.due);
 
                 fineRepository.save(fine);
                 logger.info("Saved fine for Book ID: {}, Person ID: {}, Fine Amount: €{}", bookId, peopleId, fineAmount);
