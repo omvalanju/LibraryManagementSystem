@@ -29,5 +29,14 @@ public class PeopleRepository {
                 .optional()
                 .orElse(null); // Return null if no record is found
     }
+
+    public People findById(Integer id) {
+        String query = "SELECT * FROM people WHERE people_id = ?";
+        return jdbcClient.sql(query)
+                .param(id)
+                .query(BeanPropertyRowMapper.newInstance(People.class))
+                .optional()
+                .orElse(null); // Return null if no record is found
+    }
 }
 

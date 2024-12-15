@@ -37,6 +37,10 @@ public class People {
     @Column(name = "join_date")
     private LocalDate joinDate;
 
+    public People(Integer peopleId) {
+        this.peopleId = peopleId;
+    }
+
     public People() {
         this.joinDate = LocalDate.now();
     }
