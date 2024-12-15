@@ -36,6 +36,7 @@ public class BookController {
     public ResponseEntity<String> create(@RequestBody Book book) {
         try {
             validateBook(book); // Perform validation before saving
+            book.setPublisherName(book.getPublisher().getPublisherName());
             bookRepository.create(book);
             return ResponseEntity.status(HttpStatus.CREATED).body("Book created successfully!");
         } catch (IllegalArgumentException e) {

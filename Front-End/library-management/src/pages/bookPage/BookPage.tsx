@@ -1,8 +1,16 @@
 import { Add, Edit, Delete } from '@mui/icons-material';
 import {
-  CircularProgress,
+  SelectChangeEvent,
+  Alert,
+  Box,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
   Button,
   Typography,
+  CircularProgress,
   TableContainer,
   Paper,
   Table,
@@ -11,32 +19,72 @@ import {
   TableCell,
   TableBody,
   IconButton,
-  Alert,
-  Box,
-  TextField,
+  Backdrop,
 } from '@mui/material';
-import useBookCRUDEntity from '../../hooks/useBookCRUDEntity';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import BookEntityType from '../../types/bookEntityType';
 import CustomModal from '../../components/customModal/CustomModal';
+import useBookCRUDEntity from '../../hooks/useBookCRUDEntity';
+import usePublisherCRUDEntity from '../../hooks/usePublisherCRUDEntity';
+import BookEntityType from '../../types/bookEntityType';
 
 const BookPage = () => {
-  const { getListData, getListerror, getListisLoading } = useBookCRUDEntity();
+  const {
+    getListData,
+    getListerror,
+    getListisLoading,
+    createFunction,
+    createFunctionLoading,
+    getListRefetch,
+  } = useBookCRUDEntity();
+  const { getListData: getPublisherList } = usePublisherCRUDEntity();
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
   const [modalState, setModalState] = useState<'edit' | 'create'>();
-  const { register, handleSubmit, reset } = useForm<BookEntityType>();
+  const [selectedEntity, setSelectedEntity] = useState<BookEntityType>({
+    authorName: '',
+    bookId: 0,
+    bookTitle: '',
+    copiesAvailable: 0,
+    isbn: '',
+    publisher: {
+      address: '',
+      email: '',
+      phoneNumber: '',
+      publisherId: 0,
+      publisherName: '',
+    },
+  });
+  const { register, handleSubmit, reset, setValue } = useForm<BookEntityType>();
+
   const handleSubmitNewBook = async (data: BookEntityType) => {
-    //   if (modalState === 'create') await createFunction(data);
-    //   if (modalState === 'edit' && selectedEntity) {
-    //     data.publisherId = selectedEntity?.publisherId;
-    //     await updateFunction(data);
-    //   }
-    //   getListRefetch();
-    //   setOpenAddModal(false);
+    await createFunction(data);
+    await getListRefetch();
+    setOpenAddModal(false);
   };
+
+  const handlePublisherSelect = (e: SelectChangeEvent<string>) => {
+    const selectedPublisherId = e.target.value;
+    const selectedPublisher = getPublisherList?.find(
+      (p) => p.publisherId === parseInt(selectedPublisherId)
+    );
+
+    if (selectedPublisher) {
+      setSelectedEntity((prev) => ({
+        ...prev,
+        publisher: selectedPublisher,
+      }));
+      setValue('publisher', selectedPublisher); // تنظیم مقدار publisher در فرم
+    }
+  };
+
   return (
     <div>
+      <Backdrop
+        sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+        open={createFunctionLoading}
+      >
+        <CircularProgress color='inherit' />
+      </Backdrop>
       {getListerror && <Alert color='error'>{getListerror.message}</Alert>}
       {/* ----------Create modal */}
       <CustomModal
@@ -52,51 +100,76 @@ const BookPage = () => {
             fullWidth
             sx={{ mb: 2 }}
             size='small'
-            id='publisher_name'
+            id='bookTitle'
             defaultValue={
-              modalState === 'edit' ? selectedEntity?.publisherName : ''
+              modalState === 'edit' ? selectedEntity?.bookTitle : ''
             }
-            label='Name'
-            {...register('publisherName', {
-              required: 'Publisher name is required',
+            label='Book Title'
+            {...register('bookTitle', {
+              required: 'Book Title is required',
             })}
           />
           <TextField
             fullWidth
             size='small'
             sx={{ mb: 2 }}
-            id='address'
-            defaultValue={modalState === 'edit' ? selectedEntity?.address : ''}
-            label='Address'
-            {...register('address', {
-              required: 'address name is required',
-            })}
-          />
-          <TextField
-            fullWidth
-            size='small'
-            sx={{ mb: 2 }}
-            id='email'
-            defaultValue={modalState === 'edit' ? selectedEntity?.email : ''}
-            type='email'
-            label='Email'
-            {...register('email', {
-              required: 'email name is required',
-            })}
-          />
-          <TextField
-            fullWidth
-            size='small'
-            sx={{ mb: 2 }}
-            id='phoneNumber'
+            id='copiesAvailable'
             defaultValue={
-              modalState === 'edit' ? selectedEntity?.phoneNumber : ''
+              modalState === 'edit' ? selectedEntity?.copiesAvailable : ''
             }
-            label='Phone Number'
-            {...register('phoneNumber', {
-              required: 'Phone number name is required',
+            label='Copies available'
+            {...register('copiesAvailable', {
+              required: 'Copies available is required',
             })}
           />
+          <TextField
+            fullWidth
+            size='small'
+            sx={{ mb: 2 }}
+            id='authorName'
+            defaultValue={
+              modalState === 'edit' ? selectedEntity?.authorName : ''
+            }
+            label='Author Name'
+            {...register('authorName', {
+              required: 'Author Name is required',
+            })}
+          />
+          <TextField
+            fullWidth
+            size='small'
+            sx={{ mb: 2 }}
+            id='isbn'
+            defaultValue={modalState === 'edit' ? selectedEntity?.isbn : ''}
+            label='ISBN'
+            {...register('isbn', {
+              required: 'ISBN is required',
+            })}
+          />
+          {/* Select Publisher */}
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <InputLabel id='publisher-select-label'>Publisher</InputLabel>
+            <Select
+              labelId='publisher-select-label'
+              id='publisher-select'
+              value={
+                selectedEntity?.publisher
+                  ? String(selectedEntity.publisher.publisherId)
+                  : ''
+              }
+              label='Publisher'
+              onChange={handlePublisherSelect}
+            >
+              {getPublisherList?.map((publisher) => (
+                <MenuItem
+                  key={publisher.publisherId}
+                  value={publisher.publisherId}
+                >
+                  {publisher.publisherName}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <Button type='submit' sx={{ float: 'right' }}>
             Submit
           </Button>
@@ -137,35 +210,29 @@ const BookPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {getListData?.map((m) => (
+            {getListData?.map((book) => (
               <TableRow
-                key={m.bookId}
+                key={book.bookId}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell>{m.authorName}</TableCell>
-                <TableCell>{m.bookTitle}</TableCell>
-                <TableCell>{m.copiesAvailable}</TableCell>
-                <TableCell>{m.isbn}</TableCell>
-                <TableCell>{m.publisher.publisherName}</TableCell>
+                <TableCell>{book.authorName}</TableCell>
+                <TableCell>{book.bookTitle}</TableCell>
+                <TableCell>{book.copiesAvailable}</TableCell>
+                <TableCell>{book.isbn}</TableCell>
+                <TableCell>{book.publisher.publisherName}</TableCell>
                 <TableCell>
                   <IconButton
                     color='secondary'
-                    // onClick={() => {
-                    //   reset();
-                    //   setSelectedEntity(m);
-                    //   setModalState('edit');
-                    //   setOpenAddModal(true);
-                    // }}
+                    onClick={() => {
+                      reset();
+                      setSelectedEntity(book);
+                      setModalState('edit');
+                      setOpenAddModal(true);
+                    }}
                   >
                     <Edit />
                   </IconButton>
-                  <IconButton
-                    color='error'
-                    // onClick={() => {
-                    //   setSelectedEntity(m);
-                    //   setOpenDeleteModal(true);
-                    // }}
-                  >
+                  <IconButton color='error'>
                     <Delete />
                   </IconButton>
                 </TableCell>
