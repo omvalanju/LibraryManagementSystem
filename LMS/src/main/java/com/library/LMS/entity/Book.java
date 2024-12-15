@@ -85,6 +85,13 @@ public class Book {
         return copiesAvailable;
     }
 
+    public String getPublisherName() {
+        return publisherName;
+    }
+    public void setPublisherName(String publisherName) {
+        this.publisherName = publisherName;
+    }
+
     public void setCopiesAvailable(Integer copiesAvailable) {
         this.copiesAvailable = copiesAvailable;
     }

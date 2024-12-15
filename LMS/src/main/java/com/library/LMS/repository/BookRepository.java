@@ -64,17 +64,19 @@ public class BookRepository {
 
     // Create a new book
     public void create(Book book) {
-        jdbcClient.sql("INSERT INTO books (book_title, author_name, publisher_id, ISBN, copies_available) " +
-                        "VALUES (?, ?, ?, ?, ?)")
+        jdbcClient.sql("INSERT INTO books (book_title, author_name, publisher_id, ISBN, copies_available, publisher_name) " +
+                        "VALUES (?, ?, ?, ?, ?, ?)")
                 .params(
                         book.getBookTitle(),
                         book.getAuthorName(),
                         book.getPublisher().getPublisherId(),
                         book.getISBN(),
-                        book.getCopiesAvailable()
+                        book.getCopiesAvailable(),
+                        book.getPublisherName()
                 )
                 .update();
     }
+
 
     // Retrieve a book by ID
     public Optional<Book> findById(int bookId) {
