@@ -81,8 +81,8 @@ public class Fine {
     }
 
     public enum FineStatus {
-        DUE,
-        PAID
+        due,
+        paid
     }
 
 }

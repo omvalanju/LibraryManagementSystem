@@ -33,6 +33,11 @@ public class Book {
     public Book() {
     }
 
+    public Book(Integer bookId) {
+        this.bookId = bookId;
+    }
+
+
     public Book(String bookTitle, String authorName, Publisher publisher, String ISBN, Integer copiesAvailable) {
         this.bookTitle = bookTitle;
         this.authorName = authorName;

@@ -5,6 +5,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+import java.util.List;
+import java.util.Map;
+import java.sql.Date;
+import java.time.LocalDate;
+
 
 @Repository
 public class BorrowRecordRepository {
@@ -41,5 +48,28 @@ public class BorrowRecordRepository {
                 """;
 
         return jdbcTemplate.queryForList(query, userId);
+        }
+
+    public List<Map<String, Object>> findOverdueBorrowRecordsByRole(String role, LocalDate referenceDate) {
+        String query = """
+            SELECT 
+                br.borrow_id,
+                p.people_id,
+                CONCAT(p.first_name, ' ', p.last_name) AS full_name,
+                b.book_id,
+                b.book_title,
+                br.due_date
+            FROM 
+                lms.borrow_records br
+            INNER JOIN 
+                lms.people p ON br.people_id = p.people_id
+            INNER JOIN 
+                lms.books b ON br.book_id = b.book_id
+            WHERE 
+                p.type = ? AND 
+                br.due_date < ?
+            """;
+
+        return jdbcTemplate.queryForList(query, role, referenceDate);
     }
 }

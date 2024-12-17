@@ -29,5 +29,27 @@ public class PeopleRepository {
                 .optional()
                 .orElse(null); // Return null if no record is found
     }
+
+    public People findById(Integer id) {
+        String query = "SELECT * FROM people WHERE people_id = ?";
+        return jdbcClient.sql(query)
+                .param(id)
+                .query(BeanPropertyRowMapper.newInstance(People.class))
+                .optional()
+                .orElse(null); // Return null if no record is found
+    }
+
+    public void save(People person) {
+        jdbcClient.sql("INSERT INTO people (first_name, last_name, email, phone_number, hash, type, address, join_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+                .param(person.getFirstName())
+                .param(person.getLastName())
+                .param(person.getEmail())
+                .param(person.getPhoneNumber())
+                .param(person.getHash())
+                .param(person.getType().name())
+                .param(person.getAddress())
+                .param(person.getJoinDate())
+                .update();
+    }
 }
 
