@@ -14,16 +14,26 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import appRouter from '../../router/appRouter';
-import { Book, Home, Logout, Shop, Spellcheck } from '@mui/icons-material';
+import {
+  Book,
+  Home,
+  Logout,
+  ShoppingBasket,
+  Spellcheck,
+} from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutClient } from '../../features/loginSlice';
 import { AppDispatch, AppStore } from '../../store/store';
+import { Chip } from '@mui/material';
 
 const HeaderNavbar: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const person = useSelector((state: AppStore) => state.loginSlice.people);
+  const basketLentgh = useSelector(
+    (state: AppStore) => state.basketCartSlice.length
+  );
   const role = useSelector((state: AppStore) => state.loginSlice.role);
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -95,6 +105,7 @@ const HeaderNavbar: React.FC = () => {
               </Button>
               {role === 'admin' && (
                 <>
+                  |
                   <Button
                     onClick={() => navigate(appRouter.PUBLISHER_PAGE)}
                     startIcon={<Spellcheck />}
@@ -105,6 +116,7 @@ const HeaderNavbar: React.FC = () => {
                   >
                     Publisher
                   </Button>
+                  |
                   <Button
                     onClick={() => navigate(appRouter.BOOK_PAGE)}
                     startIcon={<Book />}
@@ -115,6 +127,17 @@ const HeaderNavbar: React.FC = () => {
                   >
                     Book
                   </Button>
+                  |
+                  <Button
+                    onClick={() => navigate(appRouter.ORDER_PAGE)}
+                    startIcon={<ShoppingBasket />}
+                    sx={{
+                      my: 2,
+                      color: 'white',
+                    }}
+                  >
+                    Order List
+                  </Button>
                 </>
               )}
             </Box>
@@ -122,11 +145,13 @@ const HeaderNavbar: React.FC = () => {
               <Button
                 color='secondary'
                 variant='contained'
-                startIcon={<Shop />}
+                // startIcon={<Shop />}
                 onClick={() => navigate(appRouter.CART_PAGE)}
               >
                 Cart
+                <Chip label={basketLentgh} size='small' color='error' />
               </Button>
+
               {/* ({basketCart.length}) */}
               <Button
                 onClick={handleLogout}

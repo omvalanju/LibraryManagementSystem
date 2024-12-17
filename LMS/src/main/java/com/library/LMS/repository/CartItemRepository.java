@@ -1,6 +1,7 @@
 package com.library.LMS.repository;
 
 import com.library.LMS.entity.CartItem;
+import com.library.LMS.responseEntity.CartItemResponseEntity;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,4 +24,17 @@ public interface CartItemRepository extends JpaRepository<CartItem, Integer> {
             "WHERE ci.book.bookId = :bookId AND ci.quantity = 1 AND ci.cart.people.peopleId = :peopleId")
     int removeCartItem(@Param("bookId") Integer bookId, @Param("peopleId") Integer peopleId);
 
+    @Query("SELECT new com.library.LMS.responseEntity.CartItemResponseEntity(" +
+            "ci.cart.cartId, " +
+            "b.bookId, " +
+            "b.bookTitle, " +
+            "b.authorName, " +
+            "p.publisherName, " +
+            "b.ISBN, " +
+            "ci.quantity) " +
+            "FROM CartItem ci " +
+            "JOIN ci.book b " +
+            "JOIN b.publisher p " +
+            "WHERE ci.cart.cartId = :cartId")
+    List<CartItemResponseEntity> findItemsByCartId(@Param("cartId") Integer cartId);
 }
