@@ -11,6 +11,8 @@ const useBookCRUDEntity = (enabled: boolean = true) => {
     createFunction,
     createFunctionLoading,
     getListRefetch,
+    deleteFunction,
+    deleteFunctionLoading,
   } = useBaseCRUDEntity<BookEntityType>('books', 'create', '', '', enabled);
   const getSearchedData = async (keyword: string) =>
     await apiClient.get<BookEntityType[]>(
@@ -33,6 +35,8 @@ const useBookCRUDEntity = (enabled: boolean = true) => {
     createFunctionLoading,
     getSearchedBooks: mutate.mutateAsync,
     getSearchedBooksLoading: mutate.isLoading,
+    deleteFunction,
+    deleteFunctionLoading,
   };
 };
 
