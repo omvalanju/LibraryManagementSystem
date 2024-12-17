@@ -128,27 +128,28 @@ const HomePage = () => {
                 There is no record.
               </Typography>
             )}
-            {getListData?.map((m) => (
-              <Card key={m.book_id} sx={{ minWidth: 250 }}>
-                <CardContent>
-                  <Typography sx={{ color: 'text.secondary', fontSize: 14 }}>
-                    <strong>Title:</strong> {m.book_title}
-                  </Typography>
-                  <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>
-                    <strong>Borrow Date:</strong>
-                    {m.borrow_date}
-                  </Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>
-                    <strong>Fine Status:</strong>
-                    {m.fine_status}
-                  </Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>
-                    <strong>Fine Amount:</strong>
-                    {m.fine_amount}
-                  </Typography>
-                </CardContent>
-              </Card>
-            ))}
+            {getListData?.length !== 0 &&
+              getListData?.map((m) => (
+                <Card key={m.book_id} sx={{ minWidth: 250 }}>
+                  <CardContent>
+                    <Typography sx={{ color: 'text.secondary', fontSize: 14 }}>
+                      <strong>Title:</strong> {m.book_title}
+                    </Typography>
+                    <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>
+                      <strong>Borrow Date:</strong>
+                      {m.borrow_date}
+                    </Typography>
+                    <Typography sx={{ color: 'text.secondary' }}>
+                      <strong>Fine Status:</strong>
+                      {m.fine_status}
+                    </Typography>
+                    <Typography sx={{ color: 'text.secondary' }}>
+                      <strong>Fine Amount:</strong>
+                      {m.fine_amount}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              ))}
           </CardContent>
         </Card>
       </Box>

@@ -30,6 +30,7 @@ const CustomModal = ({
       onClose={() => handleClose()}
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
+      maxWidth={'700px'}
     >
       <DialogTitle id='alert-dialog-title'>{modalTitle}</DialogTitle>
       <DialogContent>{children}</DialogContent>

@@ -38,4 +38,5 @@ public class UserRepository {
         User user = findByEmail(email);
         return (user != null) ? user.getRole() : null;
     }
+
 }
