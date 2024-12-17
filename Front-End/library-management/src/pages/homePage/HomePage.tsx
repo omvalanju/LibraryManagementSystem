@@ -12,8 +12,8 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { AppStore } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, AppStore } from '../../store/store';
 import useBorrowedBookEntity from '../../hooks/useBorrowedBookEntity';
 import DebouncedFilter from '../../components/debouncedFilter/DebouncedFilter';
 import useBookCRUDEntity from '../../hooks/useBookCRUDEntity';
@@ -21,10 +21,10 @@ import { useRef, useState } from 'react';
 import BookEntityType from '../../types/bookEntityType';
 import BookCard from '../../components/bookCard/BookCard';
 import CustomModal from '../../components/customModal/CustomModal';
-import useCartEntity from '../../hooks/useCartEntity';
+import { addToBasketCart } from '../../features/basketCartSlice';
 
 const HomePage = () => {
-  const { addToCart } = useCartEntity();
+  const dispatch = useDispatch<AppDispatch>();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [selectedBook, setSelectedBook] = useState<BookEntityType>();
   const quantityInput = useRef<HTMLInputElement>(null);
@@ -47,11 +47,21 @@ const HomePage = () => {
   };
   const handleSubmitModal = async () => {
     if (selectedBook && quantityInput.current)
-      await addToCart({
-        bookId: selectedBook?.bookId,
-        quantity: parseInt(quantityInput.current?.value),
-        userId: personInfo.peopleId,
-      });
+      dispatch(
+        addToBasketCart({
+          authorName: selectedBook.authorName,
+          bookId: selectedBook.bookId,
+          bookTitle: selectedBook.bookTitle,
+          isbn: selectedBook.isbn,
+          publisher: selectedBook.publisher,
+          quantity: parseInt(quantityInput.current.value),
+        })
+      );
+    // await addToCart({
+    //   bookId: selectedBook?.bookId,
+    //   quantity: parseInt(quantityInput.current?.value),
+    //   userId: personInfo.peopleId,
+    // });
     setOpenModal(false);
   };
   return (
@@ -83,7 +93,7 @@ const HomePage = () => {
                 <TableCell>{selectedBook?.bookTitle}</TableCell>
                 <TableCell>{selectedBook?.copiesAvailable}</TableCell>
                 <TableCell>{selectedBook?.isbn}</TableCell>
-                <TableCell>{selectedBook?.publisher}</TableCell>
+                <TableCell>{selectedBook?.publisher.publisherName}</TableCell>
               </TableRow>
             </TableBody>
           </Table>

@@ -7,6 +7,7 @@ import HomePage from '../pages/homePage/HomePage';
 import CartListPage from '../pages/cartListPage/CartListPage';
 import PublisherPage from '../pages/publisher/PublisherPage';
 import BookPage from '../pages/bookPage/BookPage';
+import OrderListPage from '../pages/orderListPage/OrderListPage';
 
 const MainRouter = () => {
   return (
@@ -21,6 +22,7 @@ const MainRouter = () => {
           <Route element={<CartListPage />} path={appRouter.CART_PAGE} />
           <Route element={<PublisherPage />} path={appRouter.PUBLISHER_PAGE} />
           <Route element={<BookPage />} path={appRouter.BOOK_PAGE} />
+          <Route element={<OrderListPage />} path={appRouter.ORDER_PAGE} />
         </Route>
       </Routes>
     </BrowserRouter>
