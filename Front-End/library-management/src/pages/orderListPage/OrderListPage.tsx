@@ -14,6 +14,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  Backdrop,
 } from '@mui/material';
 import useOrderListEntity from '../../hooks/useOrderListEntity';
 import CustomModal from '../../components/customModal/CustomModal';
@@ -21,12 +22,29 @@ import { useState } from 'react';
 import OrderEntity from '../../types/orderEntity';
 
 const OrderListPage = () => {
-  const { getListData, getListerror, getListisLoading } = useOrderListEntity();
+  const {
+    getListData,
+    getListerror,
+    getListisLoading,
+    borrowingFunction,
+    borrowingFunctionLoading,
+    getListRefetch,
+  } = useOrderListEntity();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [selectedCart, setSelectedCart] = useState<OrderEntity>();
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    if (!selectedCart) return;
+    await borrowingFunction(selectedCart);
+    getListRefetch();
+  };
   return (
     <>
+      <Backdrop
+        sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+        open={borrowingFunctionLoading}
+      >
+        <CircularProgress color='inherit' />
+      </Backdrop>
       <CustomModal
         open={openModal}
         handleClose={() => setOpenModal(false)}
@@ -41,6 +59,9 @@ const OrderListPage = () => {
                   <TableCell>Author Name</TableCell>
                   <TableCell>Book Title</TableCell>
                   <TableCell>ISBN</TableCell>
+                  <TableCell>Borrow Date</TableCell>
+                  <TableCell>Due Date</TableCell>
+
                   {/* <TableCell>Publisher</TableCell> */}
                 </TableRow>
               </TableHead>
@@ -53,6 +74,23 @@ const OrderListPage = () => {
                     <TableCell>{book.authorName}</TableCell>
                     <TableCell>{book.bookTitle}</TableCell>
                     <TableCell>{book.isbn}</TableCell>
+                    <TableCell>
+                      <input
+                        type='date'
+                        id='borrowDate'
+                        name='borrowDate'
+                        onChange={(e) => (book.borrowDate = e.target.value)}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <input
+                        type='date'
+                        id='dueDate'
+                        name='dueDate'
+                        onChange={(e) => (book.dueDate = e.target.value)}
+                      />
+                    </TableCell>
+
                     {/* <TableCell>{book.publisher}</TableCell> */}
                   </TableRow>
                 ))}

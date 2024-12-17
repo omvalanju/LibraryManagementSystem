@@ -3,6 +3,7 @@ package com.library.LMS.repository;
 import com.library.LMS.entity.People;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class PeopleRepository {
                 .param(email)
                 .query(BeanPropertyRowMapper.newInstance(People.class))
                 .optional()
-                .orElse(null); // Return null if no record is found
+                .orElse(null);
     }
 
     public People findById(Integer id) {
@@ -40,6 +41,10 @@ public class PeopleRepository {
     }
 
     public void save(People person) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String hashedPassword = encoder.encode(person.getHash());
+        person.setHash(hashedPassword);
+
         jdbcClient.sql("INSERT INTO people (first_name, last_name, email, phone_number, hash, type, address, join_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
                 .param(person.getFirstName())
                 .param(person.getLastName())
@@ -50,6 +55,14 @@ public class PeopleRepository {
                 .param(person.getAddress())
                 .param(person.getJoinDate())
                 .update();
+    }
+    public boolean validatePassword(String email, String rawPassword) {
+        People person = findByEmail(email);
+        if (person != null) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            return encoder.matches(rawPassword, person.getHash());
+        }
+        return false;
     }
 }
 

@@ -22,13 +22,13 @@ public class LoginController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseEntity> login(@RequestParam String email, @RequestParam String hashedPassword) {
-        boolean isValidUser = userRepository.validateUser(email, hashedPassword);
+    public ResponseEntity<LoginResponseEntity> login(@RequestParam String email, @RequestParam String password) {
+        boolean isValidUser = peopleRepository.validatePassword(email, password);
         if (isValidUser) {
-            String role = userRepository.getUserRole(email); // get the client's username
-            String token = jwtService.generateToken(email,role);  // generate a token
+            String role = peopleRepository.findByEmail(email).getType().name();
+            String token = jwtService.generateToken(email, role);
             People person = peopleRepository.findByEmail(email);
-            LoginResponseEntity response = new LoginResponseEntity(token,role,person);
+            LoginResponseEntity response = new LoginResponseEntity(token, role, person);
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(401).body(null);
@@ -38,8 +38,8 @@ public class LoginController {
     public ResponseEntity<VerifyResponseEntity> verifyToken(@RequestParam String token) {
         if (jwtService.validateToken(token)) {
             String email = jwtService.extractUsername(token);
-            String role = userRepository.getUserRole(email);
-            VerifyResponseEntity response = new VerifyResponseEntity(email,role);
+            String role = peopleRepository.findByEmail(email).getType().name();
+            VerifyResponseEntity response = new VerifyResponseEntity(email, role);
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(401).body(null);

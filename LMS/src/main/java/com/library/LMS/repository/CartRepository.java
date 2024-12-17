@@ -3,7 +3,9 @@ package com.library.LMS.repository;
 import com.library.LMS.entity.Cart;
 import com.library.LMS.responseEntity.CartItemResponseEntity;
 import com.library.LMS.responseEntity.CartResponseEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -50,7 +52,10 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
     @Query("SELECT c FROM Cart c WHERE c.status = 'active'")
     List<Cart> findAllActiveCarts();
 
-
+    @Modifying
+    @Transactional
+    @Query("UPDATE Cart c SET c.status = 'inactive' WHERE c.people.peopleId = :peopleId AND c.status = 'active'")
+    void deactivateActiveCartByPeopleId(@Param("peopleId") Integer peopleId);
 
 
 }
