@@ -34,4 +34,22 @@ public class FineController {
         }
         return ResponseEntity.ok(fine.get().getFineAmount());
     }
+
+    //api to change due to paid
+    @PutMapping("/pay/{userId}")
+    public ResponseEntity<Void> markFineAsPaid(@PathVariable Long userId) {
+        Optional<Fine> fineOpt = fineRepository.findByPeople_PeopleId(userId.intValue());
+
+        if (fineOpt.isEmpty()) {
+            return ResponseEntity.notFound().build(); // If no fine is found
+        }
+
+        Fine fine = fineOpt.get();
+
+        // Update the status to 'paid'
+        fine.setStatus(Fine.FineStatus.paid);
+        fineRepository.save(fine);
+
+        return ResponseEntity.ok().build(); // Return a success response
+    }
 }

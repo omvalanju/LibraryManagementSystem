@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class FineService {
@@ -49,6 +50,12 @@ public class FineService {
                 Integer bookId = (Integer) record.get("book_id");
                 Integer peopleId = (Integer) record.get("people_id");
                 LocalDate dueDate = ((java.sql.Date) record.get("due_date")).toLocalDate();
+                Boolean isReturned = (Boolean) record.get("returned");
+
+                if (Boolean.TRUE.equals(isReturned)) {
+                    logger.info("Skipping record for Book ID: {} as it is already returned.", bookId);
+                    continue;
+                }
 
                 int daysOverdue = Math.max(0, (int) java.time.temporal.ChronoUnit.DAYS.between(dueDate, LocalDate.now()));
                 int fineAmount = daysOverdue * 2; // €2 per day overdue
@@ -56,19 +63,52 @@ public class FineService {
                 logger.info("Calculating fine for Book ID: {}, Person ID: {}, Days Overdue: {}, Fine Amount: €{}",
                         bookId, peopleId, daysOverdue, fineAmount);
 
-                Book book = bookRepository.findById(bookId)
-                        .orElseThrow(() -> new RuntimeException("Book not found with ID: " + bookId));
-                People people = peopleRepository.findById(peopleId);
-                        //.orElseThrow(() -> new RuntimeException("Person not found with ID: " + peopleId));
+                // Check if a fine already exists for this person
+                Optional<Fine> existingFineOpt = fineRepository.findByPeople_PeopleId(peopleId);
 
-                Fine fine = new Fine();
-                fine.setBook(book);
-                fine.setPeople(people);
-                fine.setFineAmount(fineAmount);
-                fine.setStatus(Fine.FineStatus.due);
+                if (existingFineOpt.isPresent()) {
+                    Fine existingFine = existingFineOpt.get();
 
-                fineRepository.save(fine);
-                logger.info("Saved fine for Book ID: {}, Person ID: {}, Fine Amount: €{}", bookId, peopleId, fineAmount);
+                    // If the existing fine is paid, create a new fine
+                    if (existingFine.getStatus() == Fine.FineStatus.paid) {
+                        logger.info("Existing fine is marked as paid. Creating a new fine record.");
+
+                        // Create a new fine record
+                        Book book = bookRepository.findById(bookId)
+                                .orElseThrow(() -> new RuntimeException("Book not found with ID: " + bookId));
+                        People people = peopleRepository.findById(peopleId);
+                        // .orElseThrow(() -> new RuntimeException("Person not found with ID: " + peopleId));
+
+                        Fine newFine = new Fine();
+                        newFine.setBook(book);
+                        newFine.setPeople(people);
+                        newFine.setFineAmount(fineAmount);
+                        newFine.setStatus(Fine.FineStatus.due);
+
+                        fineRepository.save(newFine);
+                        logger.info("Saved new fine for Book ID: {}, Person ID: {}, Fine Amount: €{}", bookId, peopleId, fineAmount);
+                    } else {
+                        // Update the existing fine
+                        existingFine.setFineAmount(fineAmount);
+                        fineRepository.save(existingFine);
+                        logger.info("Updated existing fine for Book ID: {}, Person ID: {}, Fine Amount: €{}", bookId, peopleId, fineAmount);
+                    }
+                } else {
+                    // Create a new fine record if no fine exists
+                    Book book = bookRepository.findById(bookId)
+                            .orElseThrow(() -> new RuntimeException("Book not found with ID: " + bookId));
+                    People people = peopleRepository.findById(peopleId);
+                            //.orElseThrow(() -> new RuntimeException("Person not found with ID: " + peopleId));
+
+                    Fine fine = new Fine();
+                    fine.setBook(book);
+                    fine.setPeople(people);
+                    fine.setFineAmount(fineAmount);
+                    fine.setStatus(Fine.FineStatus.due);
+
+                    fineRepository.save(fine);
+                    logger.info("Saved new fine for Book ID: {}, Person ID: {}, Fine Amount: €{}", bookId, peopleId, fineAmount);
+                }
 
             } catch (Exception e) {
                 logger.error("Error processing overdue record: {}", record, e);
@@ -76,3 +116,4 @@ public class FineService {
         }
     }
 }
+
