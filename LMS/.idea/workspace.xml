@@ -5,23 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8a456510-a83c-416c-a361-6baf14d8efc3" name="Changes" comment="Add URL Configuration">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/dto/BorrowRequestDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/components/customModal/CustomModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/components/customModal/CustomModal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/hooks/useBookCRUDEntity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/hooks/useBookCRUDEntity.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/hooks/useOrderListEntity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/hooks/useOrderListEntity.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/pages/homePage/HomePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/pages/homePage/HomePage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/pages/orderListPage/OrderListPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/pages/orderListPage/OrderListPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/types/cartItemEntity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/types/cartItemEntity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/pages/bookPage/BookPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/pages/bookPage/BookPage.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/library/LMS/controller/BorrowRecordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/controller/BorrowRecordController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/library/LMS/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/library/LMS/repository/BorrowRecordRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/repository/BorrowRecordRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/library/LMS/repository/CartRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/repository/CartRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/library/LMS/repository/PeopleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/repository/PeopleRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/library/LMS/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/library/LMS/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +67,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.LmsApplication.executor": "Debug",
+    "Spring Boot.LmsApplication.executor": "Run",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/soheil/Desktop/Software Development Practice/Project/LibraryManagementSystem/LMS",
@@ -152,7 +138,7 @@
       <workItem from="1734104902859" duration="15314000" />
       <workItem from="1734295109377" duration="1372000" />
       <workItem from="1734344995685" duration="13361000" />
-      <workItem from="1734449779462" duration="4510000" />
+      <workItem from="1734449779462" duration="5989000" />
     </task>
     <task id="LOCAL-00001" summary="Add Login with JWT">
       <option name="closed" value="true" />
@@ -226,16 +212,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/library/LMS/controller/BookController.java</url>
           <line>37</line>
           <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/library/LMS/controller/PeopleController.java</url>
-          <line>28</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/library/LMS/controller/LoginController.java</url>
-          <line>25</line>
-          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

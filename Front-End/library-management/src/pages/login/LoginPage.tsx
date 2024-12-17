@@ -25,7 +25,7 @@ const LoginPage = () => {
   const handleSubmitForm = (data: LoginRequestEntityType) => {
     apiClient
       .post<LoginResponseEntityType>(
-        '/login' + `?email=${data.email}&hashedPassword=${data.password}`
+        '/login' + `?email=${data.email}&password=${data.password}`
       )
       .then((response) => {
         dispatch(loginClient(response.data));

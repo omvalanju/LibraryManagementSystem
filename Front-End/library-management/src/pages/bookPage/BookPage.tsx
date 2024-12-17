@@ -36,6 +36,8 @@ const BookPage = () => {
     createFunction,
     createFunctionLoading,
     getListRefetch,
+    updateFunction,
+    updateFunctionLoading,
   } = useBookCRUDEntity();
   const { getListData: getPublisherList } = usePublisherCRUDEntity();
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
@@ -57,7 +59,8 @@ const BookPage = () => {
   const { register, handleSubmit, reset, setValue } = useForm<BookEntityType>();
 
   const handleSubmitNewBook = async (data: BookEntityType) => {
-    await createFunction(data);
+    if (modalState === 'create') await createFunction(data);
+    if (modalState === 'edit') await updateFunction(selectedEntity);
     await getListRefetch();
     setOpenAddModal(false);
   };
@@ -81,7 +84,7 @@ const BookPage = () => {
     <div>
       <Backdrop
         sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
-        open={createFunctionLoading}
+        open={createFunctionLoading || updateFunctionLoading}
       >
         <CircularProgress color='inherit' />
       </Backdrop>
