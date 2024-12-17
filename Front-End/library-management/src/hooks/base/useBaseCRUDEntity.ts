@@ -22,8 +22,7 @@ const useBaseCRUDEntity = <T>(
     enabled,
   });
   const createEntity = async (data: T) => {
-    return (await apiClient.post<T>(`${endpoint}/${createEndpoint}`, data))
-      .data;
+    return (await apiClient.post(`${endpoint}/${createEndpoint}`, data)).data;
   };
   const deleteEntity = async (id: number) => {
     return (await apiClient.delete(`${endpoint}/${deleteEndpoint}/${id}`)).data;
