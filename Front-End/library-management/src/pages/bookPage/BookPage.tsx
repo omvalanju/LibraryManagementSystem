@@ -38,9 +38,12 @@ const BookPage = () => {
     getListRefetch,
     updateFunction,
     updateFunctionLoading,
+    deleteFunction,
+    deleteFunctionLoading,
   } = useBookCRUDEntity();
   const { getListData: getPublisherList } = usePublisherCRUDEntity();
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [modalState, setModalState] = useState<'edit' | 'create'>();
   const [selectedEntity, setSelectedEntity] = useState<BookEntityType>({
     authorName: '',
@@ -60,7 +63,11 @@ const BookPage = () => {
 
   const handleSubmitNewBook = async (data: BookEntityType) => {
     if (modalState === 'create') await createFunction(data);
-    if (modalState === 'edit') await updateFunction(selectedEntity);
+    if (modalState === 'edit') {
+      data.bookId = selectedEntity.bookId;
+      data.publisher = selectedEntity.publisher;
+      await updateFunction(data);
+    }
     await getListRefetch();
     setOpenAddModal(false);
   };
@@ -76,15 +83,24 @@ const BookPage = () => {
         ...prev,
         publisher: selectedPublisher,
       }));
-      setValue('publisher', selectedPublisher); // تنظیم مقدار publisher در فرم
+      setValue('publisher', selectedPublisher);
     }
   };
-
+  const handleDelete = async () => {
+    if (!selectedEntity) return;
+    await deleteFunction(selectedEntity.bookId);
+    getListRefetch();
+    setOpenDeleteModal(false);
+  };
   return (
     <div>
       <Backdrop
         sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
-        open={createFunctionLoading || updateFunctionLoading}
+        open={
+          createFunctionLoading ||
+          updateFunctionLoading ||
+          deleteFunctionLoading
+        }
       >
         <CircularProgress color='inherit' />
       </Backdrop>
@@ -184,6 +200,19 @@ const BookPage = () => {
           </Button>
         </Box>
       </CustomModal>
+      {/* ----------Delete modal */}
+      <CustomModal
+        open={openDeleteModal}
+        handleClose={() => {
+          setOpenDeleteModal(false);
+        }}
+        modalTitle='Delete a publisher'
+        handleSubmit={() => handleDelete()}
+      >
+        <Typography variant='subtitle1' color='initial'>
+          Are you sure to delete this item?
+        </Typography>
+      </CustomModal>
       <Typography variant='h6' color='initial'>
         Books
       </Typography>
@@ -235,7 +264,13 @@ const BookPage = () => {
                   >
                     <Edit />
                   </IconButton>
-                  <IconButton color='error'>
+                  <IconButton
+                    color='error'
+                    onClick={() => {
+                      setSelectedEntity(book);
+                      setOpenDeleteModal(true);
+                    }}
+                  >
                     <Delete />
                   </IconButton>
                 </TableCell>
