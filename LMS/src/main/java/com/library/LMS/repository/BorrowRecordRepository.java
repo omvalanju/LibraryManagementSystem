@@ -3,6 +3,7 @@ package com.library.LMS.repository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,6 +21,14 @@ public class BorrowRecordRepository {
 
     public BorrowRecordRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public void insertBorrowRecord(int peopleId, int bookId, LocalDate borrowDate, LocalDate dueDate) {
+        String insertQuery = """
+            INSERT INTO borrow_records (people_id, book_id, borrow_date, due_date)
+            VALUES (?, ?, ?, ?)
+            """;
+        jdbcTemplate.update(insertQuery, peopleId, bookId, borrowDate, dueDate);
     }
 
     public List<Map<String, Object>> findBorrowRecordsByUserId(int userId) {

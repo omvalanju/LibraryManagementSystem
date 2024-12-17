@@ -10,6 +10,8 @@ const useBookCRUDEntity = (enabled: boolean = true) => {
     getListisLoading,
     createFunction,
     createFunctionLoading,
+    updateFunction,
+    updateFunctionLoading,
     getListRefetch,
   } = useBaseCRUDEntity<BookEntityType>('books', 'create', '', '', enabled);
   const getSearchedData = async (keyword: string) =>
