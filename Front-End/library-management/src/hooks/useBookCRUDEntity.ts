@@ -10,19 +10,23 @@ const useBookCRUDEntity = (enabled: boolean = true) => {
     getListisLoading,
     createFunction,
     createFunctionLoading,
-    updateFunction,
-    updateFunctionLoading,
     getListRefetch,
   } = useBaseCRUDEntity<BookEntityType>('books', 'create', '', '', enabled);
   const getSearchedData = async (keyword: string) =>
     await apiClient.get<BookEntityType[]>(
       'http://localhost:8080/api/books/search?keyword=' + keyword
     );
-  //
+  const updateEntity = async (data: BookEntityType) => {
+    return (await apiClient.put(`books/${data.bookId}`, data)).data;
+  };
+  const { mutateAsync: updateFunction, isLoading: updateFunctionLoading } =
+    useMutation(updateEntity);
   const mutate = useMutation(getSearchedData);
   return {
     getListData,
     getListRefetch,
+    updateFunction,
+    updateFunctionLoading,
     getListerror,
     getListisLoading,
     createFunction,
