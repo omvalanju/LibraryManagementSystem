@@ -93,6 +93,17 @@ public class BookController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+    // Update a book by ID
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateBook(@PathVariable int id, @RequestBody Book updatedBook) {
+        boolean isUpdated = bookRepository.updateBook(id, updatedBook);
+        if (isUpdated) {
+            return ResponseEntity.ok("Book updated successfully.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
     private void validateBook(Book book) {
         if (book.getBookTitle() == null || book.getBookTitle().isBlank()) {

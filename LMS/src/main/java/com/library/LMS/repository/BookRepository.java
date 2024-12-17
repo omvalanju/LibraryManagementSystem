@@ -96,7 +96,7 @@ public class BookRepository {
     }
 
     // Update a book by ID
-    public boolean update(int bookId, Book updatedBook) {
+    public boolean updateBook(int bookId, Book updatedBook) {
         int rowsAffected = jdbcClient.sql("UPDATE books SET book_title = ?, author_name = ?, publisher_id = ?, ISBN = ?, copies_available = ? " +
                         "WHERE book_id = ?")
                 .params(
