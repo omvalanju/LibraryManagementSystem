@@ -5,5 +5,6 @@ const appRouter = {
   PUBLISHER_PAGE: '/publisher',
   BOOK_PAGE: '/book',
   ORDER_PAGE: '/orderList',
+  USER_PAGE: '/user',
 };
 export default appRouter;
