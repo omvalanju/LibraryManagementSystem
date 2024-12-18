@@ -55,13 +55,10 @@ const HomePage = () => {
           isbn: selectedBook.isbn,
           publisher: selectedBook.publisher,
           quantity: parseInt(quantityInput.current.value),
+          borrowDate: '',
+          dueDate: '',
         })
       );
-    // await addToCart({
-    //   bookId: selectedBook?.bookId,
-    //   quantity: parseInt(quantityInput.current?.value),
-    //   userId: personInfo.peopleId,
-    // });
     setOpenModal(false);
   };
   return (

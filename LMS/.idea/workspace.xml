@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8a456510-a83c-416c-a361-6baf14d8efc3" name="Changes" comment="Add URL Configuration">
-      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/hooks/useBookCRUDEntity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/hooks/useBookCRUDEntity.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/pages/bookPage/BookPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/pages/bookPage/BookPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/components/headerNavbar/HeaderNavbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/components/headerNavbar/HeaderNavbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/pages/homePage/HomePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/pages/homePage/HomePage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +138,7 @@
       <workItem from="1734104902859" duration="15314000" />
       <workItem from="1734295109377" duration="1372000" />
       <workItem from="1734344995685" duration="13361000" />
-      <workItem from="1734449779462" duration="6315000" />
+      <workItem from="1734449779462" duration="7750000" />
     </task>
     <task id="LOCAL-00001" summary="Add Login with JWT">
       <option name="closed" value="true" />

@@ -18,6 +18,7 @@ import {
   Book,
   Home,
   Logout,
+  Person,
   ShoppingBasket,
   Spellcheck,
 } from '@mui/icons-material';
@@ -138,6 +139,17 @@ const HeaderNavbar: React.FC = () => {
                   >
                     Order List
                   </Button>
+                  |
+                  <Button
+                    onClick={() => navigate(appRouter.USER_PAGE)}
+                    startIcon={<Person />}
+                    sx={{
+                      my: 2,
+                      color: 'white',
+                    }}
+                  >
+                    User
+                  </Button>
                 </>
               )}
             </Box>
@@ -185,6 +197,42 @@ const HeaderNavbar: React.FC = () => {
                 />
               </ListItemButton>
             </ListItem>
+            {role === 'admin' && (
+              <Box>
+                <ListItem disablePadding>
+                  <ListItemButton href='/'>
+                    <ListItemText
+                      primary={'Publisher'}
+                      onClick={() => navigate(appRouter.PUBLISHER_PAGE)}
+                    />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton href='/'>
+                    <ListItemText
+                      primary={'Book'}
+                      onClick={() => navigate(appRouter.BOOK_PAGE)}
+                    />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton href='/'>
+                    <ListItemText
+                      primary={'Order List'}
+                      onClick={() => navigate(appRouter.PUBLISHER_PAGE)}
+                    />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton href='/'>
+                    <ListItemText
+                      primary={'User'}
+                      onClick={() => navigate(appRouter.USER_PAGE)}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Box>
+            )}
             <ListItem disablePadding>
               <ListItemButton href='/'>
                 <ListItemText
