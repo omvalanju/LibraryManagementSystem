@@ -12,7 +12,7 @@ import {
   Box,
   Backdrop,
   CircularProgress,
-  Alert,
+  // Alert,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, AppStore } from '../../store/store';
@@ -30,8 +30,8 @@ const CartListPage = () => {
   const {
     addMultipleFunction,
     addMultipleIsLoading,
-    addMultipleError,
-    addMultipleIsError,
+    // addMultipleError,
+    // addMultipleIsError,
   } = useCartEntity();
   const dispatch = useDispatch<AppDispatch>();
   // const userId = useSelector(
@@ -54,11 +54,11 @@ const CartListPage = () => {
       >
         <CircularProgress color='inherit' />
       </Backdrop>
-      {addMultipleIsError && (
+      {/* {addMultipleIsError && (
         <Alert color='error'>
           Error: {addMultipleError ? String(addMultipleError) : 'Unknown error'}
         </Alert>
-      )}
+      )} */}
       <Typography variant='h6' color='initial'>
         Cart Content
       </Typography>

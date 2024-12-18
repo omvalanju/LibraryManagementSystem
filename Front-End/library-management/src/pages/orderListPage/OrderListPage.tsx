@@ -37,6 +37,11 @@ const OrderListPage = () => {
     await borrowingFunction(selectedCart);
     getListRefetch();
   };
+  const getNextMonthDate = () => {
+    const today = new Date();
+    const nextMonth = new Date(today.setMonth(today.getMonth() + 1)); // یک ماه بعد
+    return nextMonth.toISOString().split('T')[0]; // فرمت YYYY-MM-DD
+  };
   return (
     <>
       <Backdrop
@@ -79,6 +84,7 @@ const OrderListPage = () => {
                         type='date'
                         id='borrowDate'
                         name='borrowDate'
+                        defaultValue={new Date().toISOString().split('T')[0]}
                         onChange={(e) => (book.borrowDate = e.target.value)}
                       />
                     </TableCell>
@@ -87,6 +93,7 @@ const OrderListPage = () => {
                         type='date'
                         id='dueDate'
                         name='dueDate'
+                        defaultValue={getNextMonthDate()}
                         onChange={(e) => (book.dueDate = e.target.value)}
                       />
                     </TableCell>
@@ -106,12 +113,23 @@ const OrderListPage = () => {
           <Card key={m.cartId} sx={{ width: 200 }}>
             <CardContent>
               <Typography gutterBottom sx={{ textAlign: 'center' }}>
+                <strong>Full Name:</strong>
                 {m.peopleName}
+              </Typography>
+              <Typography
+                gutterBottom
+                sx={{ textAlign: 'center' }}
+                color='textDisabled'
+              >
+                <strong>Cart ID:</strong>
+                {m.cartId}
               </Typography>
             </CardContent>
             <CardActions>
               <Button
                 size='small'
+                fullWidth
+                variant='outlined'
                 onClick={() => {
                   setSelectedCart(m);
                   setOpenModal(true);
