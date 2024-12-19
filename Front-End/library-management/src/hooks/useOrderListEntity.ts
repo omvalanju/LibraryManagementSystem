@@ -1,25 +1,23 @@
-import { useSelector } from 'react-redux';
 import apiClient from '../services/apiClient';
 import OrderEntity from '../types/orderEntity';
 import useBaseCRUDEntity from './base/useBaseCRUDEntity';
-import { AppStore } from '../store/store';
 import { useMutation } from 'react-query';
 
 const useOrderListEntity = () => {
   const { getListData, getListerror, getListisLoading, getListRefetch } =
     useBaseCRUDEntity<OrderEntity>('cart/all');
-  const personId = useSelector(
-    (state: AppStore) => state.loginSlice.people.peopleId
-  );
   const borrowFunction = async (data: OrderEntity) => {
+    const today = new Date();
+    const nextMonth = new Date(today.setMonth(today.getMonth() + 1));
+
     const reqData = {
-      peopleId: personId,
+      peopleId: data.peopleId,
       books: data.cartItems.map(
         (m) =>
           new Object({
             bookId: m.bookId,
             borrowDate: m.borrowDate,
-            dueDate: m.dueDate,
+            dueDate: m.dueDate ?? nextMonth.toISOString().split('T')[0],
           })
       ),
     };

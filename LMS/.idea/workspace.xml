@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8a456510-a83c-416c-a361-6baf14d8efc3" name="Changes" comment="Add URL Configuration">
-      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/components/headerNavbar/HeaderNavbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/components/headerNavbar/HeaderNavbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/pages/homePage/HomePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/pages/homePage/HomePage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front-End/library-management/src/hooks/useOrderListEntity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/library-management/src/hooks/useOrderListEntity.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,7 +66,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.LmsApplication.executor": "Run",
+    "Spring Boot.LmsApplication.executor": "Debug",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/soheil/Desktop/Software Development Practice/Project/LibraryManagementSystem/LMS",
@@ -138,7 +137,7 @@
       <workItem from="1734104902859" duration="15314000" />
       <workItem from="1734295109377" duration="1372000" />
       <workItem from="1734344995685" duration="13361000" />
-      <workItem from="1734449779462" duration="7750000" />
+      <workItem from="1734449779462" duration="8674000" />
     </task>
     <task id="LOCAL-00001" summary="Add Login with JWT">
       <option name="closed" value="true" />
@@ -212,6 +211,16 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/library/LMS/controller/BookController.java</url>
           <line>37</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/library/LMS/controller/BorrowRecordController.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/library/LMS/controller/BorrowRecordController.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
