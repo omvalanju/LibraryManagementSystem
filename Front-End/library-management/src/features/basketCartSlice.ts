@@ -10,7 +10,7 @@ const basketCartSlice = createSlice({
       state.push(action.payload);
     },
     removeFromBasketCart(state, action: PayloadAction<number>) {
-      state.filter((f) => f.bookId !== action.payload);
+      return state.filter((f) => f.bookId !== action.payload);
     },
     clearBasket(state) {
       state.splice(0, state.length);

@@ -39,8 +39,8 @@ const OrderListPage = () => {
   };
   const getNextMonthDate = () => {
     const today = new Date();
-    const nextMonth = new Date(today.setMonth(today.getMonth() + 1)); // یک ماه بعد
-    return nextMonth.toISOString().split('T')[0]; // فرمت YYYY-MM-DD
+    const nextMonth = new Date(today.setMonth(today.getMonth() + 1));
+    return nextMonth.toISOString().split('T')[0];
   };
   return (
     <>
