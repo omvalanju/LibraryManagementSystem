@@ -16,7 +16,7 @@ const useOrderListEntity = () => {
         (m) =>
           new Object({
             bookId: m.bookId,
-            borrowDate: m.borrowDate,
+            borrowDate: m.borrowDate ?? new Date().toISOString().split('T')[0],
             dueDate: m.dueDate ?? nextMonth.toISOString().split('T')[0],
           })
       ),
